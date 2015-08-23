@@ -262,7 +262,7 @@ int _label_small_text_reducer = 15;
     _label4.font = [UIFont fontWithName:@"Courier" size:_height/multiplier];
     
     // center frame in middle...
-    int myWidth = width - _label4_textSize.width;
+    //int myWidth = width - _label4_textSize.width;
     _label4.frame = CGRectMake(0, currentHeight, width, remainingHeight);
     
     
@@ -281,7 +281,7 @@ int _label_small_text_reducer = 15;
         //_image =[[UIImageView alloc] initWithFrame:CGRectMake(10,(height*4)/3,(width*2) - 20,height*2)];
         //[_label2 setHidden:false];
         //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:0./255 green:213./255 blue:0./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationPortrait: %ld", UIInterfaceOrientationPortrait);
+        NSLog(@"UIInterfaceOrientationPortrait: %ld", (long)UIInterfaceOrientationPortrait);
         //[_label setText:@"New"];
         //[_label2 setText:@"UIInterfaceOrientationPortrait"];
     }
@@ -296,7 +296,7 @@ int _label_small_text_reducer = 15;
         
         //[_label2 setHidden:TRUE];
         //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:255./255 green:0./255 blue:0./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationLandscapeRight: %ld", UIInterfaceOrientationLandscapeRight);
+        NSLog(@"UIInterfaceOrientationLandscapeRight: %ld", (long)UIInterfaceOrientationLandscapeRight);
         //[_label setText:@"New\tUIInterfaceOrientationLandscapeRight"];
     }
     else if (orientation == UIInterfaceOrientationLandscapeLeft)
@@ -309,7 +309,7 @@ int _label_small_text_reducer = 15;
         
         //[_label2 setHidden:TRUE];        
         //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:0./255 green:0./255 blue:255./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationLandscapeLeft: %ld", UIInterfaceOrientationLandscapeLeft);
+        NSLog(@"UIInterfaceOrientationLandscapeLeft: %ld", (long)UIInterfaceOrientationLandscapeLeft);
         //[_label setText:@"New\tUIInterfaceOrientationLandscapeLeft"];
     }
     else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
@@ -322,7 +322,7 @@ int _label_small_text_reducer = 15;
         
         //[_label2 setHidden:false];
         //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:0./255 green:255./255 blue:255./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationPortraitUpsideDown: %ld", UIInterfaceOrientationPortraitUpsideDown);
+        NSLog(@"UIInterfaceOrientationPortraitUpsideDown: %ld", (long)UIInterfaceOrientationPortraitUpsideDown);
         //[_label setText:@"New"];
         //[_label2 setText:@"UIInterfaceOrientationPortraitUpsideDown"];
     }
@@ -331,7 +331,7 @@ int _label_small_text_reducer = 15;
         [self.view setBackgroundColor:[[UIColor alloc] initWithRed:255./255 green:255./255 blue:255./255 alpha:0.5]];
     }
     NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%ld", orientation);
+    NSLog(@"%ld", (long)orientation);
     
     return YES;
 }

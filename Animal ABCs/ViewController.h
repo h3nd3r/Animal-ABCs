@@ -22,8 +22,6 @@
 @property UIView *_currentView;
 @property UILabel *_label;
     
--(UIColor*)colorWithHexString;
 -(void)createSubviews;
--(void)credits;
 
 @end
