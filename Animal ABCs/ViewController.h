@@ -7,9 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface ViewController : UIViewController
+{
 
+
+
+}
+
+@property IBOutlet UIView *_portraitView;
+@property IBOutlet UIView *_landscapeView;
+@property IBOutlet UIView *_defaultView;
+@property UIView *_currentView;
+@property UILabel *_label;
+    
+-(UIColor*)colorWithHexString;
+-(void)createSubviews;
+-(void)credits;
 
 @end
-
