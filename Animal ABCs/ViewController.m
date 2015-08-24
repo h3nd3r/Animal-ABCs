@@ -32,6 +32,7 @@ NSMutableArray *arrayAudio;
 NSMutableArray *arrayColors;
 NSMutableArray *_audioPlayers;
 
+CGSize _label1_textSize;
 CGFloat _width;
 CGFloat _height;
 
@@ -41,6 +42,19 @@ int arrayCount;
 int _label_big_text_reducer = 5;
 int _label_medium_text_reducer = 10;
 int _label_small_text_reducer = 15;
+
+int portrait_text_size_3;
+int px1_3, py1_3, px2_3, py2_3;
+
+int landscape_text_size_3;
+int lx1_3, ly1_3, lx2_3, ly2_3;
+
+int portrait_text_size_4;
+int px1_4, py1_4, px2_4, py2_4;
+
+int landscape_text_size_4;
+int lx1_4, ly1_4, lx2_4, ly2_4;
+
 
 @implementation ViewController
 
@@ -83,42 +97,6 @@ int _label_small_text_reducer = 15;
     NSLog(@"Pinch received.");    
 }
 
--(UIColor*)colorWithHexString:(NSString*)hex {
-    NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
-    
-    // String should be 6 or 8 characters
-    if ([cString length] < 6) return [UIColor grayColor];
-    
-    // strip 0X if it appears
-    if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
-    
-    if ([cString length] != 6) return  [UIColor grayColor];
-    
-    // Separate into r, g, b substrings
-    NSRange range = NSMakeRange(0, [cString length]);
-    
-    range.location = 0;
-    range.length = 2;
-    NSString *rString = [cString substringWithRange:range];
-    
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
-    
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
-    
-    // Scan values
-    unsigned int r, g, b;
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    
-    return [UIColor colorWithRed:((float) r / 255.0f)
-                           green:((float) g / 255.0f)
-                            blue:((float) b / 255.0f)
-                           alpha:1.0f];
-}
-
 -(void)handleSwipeFromRight:(UISwipeGestureRecognizer *)recognizer {
     if (arrayIndex !=26) {
         // stop playing any sounds & rewind
@@ -129,7 +107,7 @@ int _label_small_text_reducer = 15;
     arrayIndex--;
     NSLog(@"Right swipe received, arrayIndex %d", arrayIndex);
 
-    if(arrayIndex <= 0) {
+    if(arrayIndex < 0) {
         arrayIndex = arrayCount - 1;
     }
 
@@ -146,8 +124,6 @@ int _label_small_text_reducer = 15;
         
         CGSize textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
-        
-        
         
         _image.image=[UIImage imageNamed:arrayImages[arrayIndex]];
         
@@ -213,122 +189,44 @@ int _label_small_text_reducer = 15;
     
     _image.frame = CGRectMake(0, 0, width, height);
     
-    
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_big_text_reducer]}];
     _label.frame = CGRectMake(20, 20, textSize.width, textSize.height);
     
     textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
     _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
     
-    /*--------CREDITS-----------*/
-    
-    CGSize _label1_textSize = [_label1.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
     _label1.frame = CGRectMake(0, 20, width, _label1_textSize.height);
     
-    int currentHeight =  _label1_textSize.height + 20;
+    NSLog(@"portrait: %d",portrait_text_size_3);
+    NSLog(@"portrait: %d",portrait_text_size_4);
+    NSLog(@"portrait: %d,%d,%d,%d",px1_3, py1_3, px2_3, py2_3);
+    NSLog(@"portrait: %d,%d,%d,%d",px1_4, py1_4, px2_4, py2_4);
     
-    // fit text within width of screen...
-    CGSize _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height]}];
-    int multiplier = 1;
+    NSLog(@"landscape: %d",landscape_text_size_3);
+    NSLog(@"landscape: %d",landscape_text_size_4);
+    NSLog(@"landscape: %d,%d,%d,%d",lx1_3, ly1_3, lx2_3, ly2_3);
+    NSLog(@"landscape: %d,%d,%d,%d",lx1_4, ly1_4, lx2_4, ly2_4);
     
-    while (_label3_textSize.width > width){
-        multiplier++;
-        _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/multiplier]}];
+    if ((orientation == UIInterfaceOrientationPortrait) ||
+            (orientation == UIInterfaceOrientationPortraitUpsideDown)){
+        NSLog(@"portrait");
+        _label3.font = [UIFont fontWithName:@"Courier-Bold" size:portrait_text_size_3];
+        _label3.frame = CGRectMake(px1_3, py1_3, px2_3, py2_3);
+        
+        _label4.font = [UIFont fontWithName:@"Courier-Bold" size:portrait_text_size_4];
+        _label4.frame = CGRectMake(px1_4, py1_4, px2_4, py2_4);
+        
     }
-    
-    NSLog(@"width: %f, height: %f", _label3_textSize.width, _label3_textSize.height);
-    
-    _label3.font = [UIFont fontWithName:@"Courier" size:_height/multiplier];
-    _label3.frame = CGRectMake(0, currentHeight, width, _label3_textSize.height);
-    
-    currentHeight = currentHeight + _label3_textSize.height;
-    
-    multiplier = 1;
-    _label4.font = [UIFont fontWithName:@"Courier-Bold" size:_height/20];
-
-    
-    // the size to fit the credits...
-    
-    int remainingHeight = height - currentHeight;
-    
-    CGSize _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/multiplier]}];
-    
-    while (_label4_textSize.height > remainingHeight){
-        multiplier++;
-        _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/multiplier]}];
-    }
-    
-    NSLog(@"widht: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
-    _label4.font = [UIFont fontWithName:@"Courier" size:_height/multiplier];
-    
-    // center frame in middle...
-    //int myWidth = width - _label4_textSize.width;
-    _label4.frame = CGRectMake(0, currentHeight, width, remainingHeight);
-    
-    
-    /*---------END CREDITS-------------*/
-    
-    if (orientation == UIInterfaceOrientationPortrait) {
-        
-        // your code for portrait mode
-        //_label.frame = CGRectMake(width-150, 35, 300, 70);
-        //_label2.frame = CGRectMake(width-150, 100, 300, 70);
-        
-        //_image.frame = CGRectMake(0, 0, _width, _height);
-        
-        //NSLog(@"frame: %d, %f, %f, %f", 0, _height/2, _width, _height);
-        
-        //_image =[[UIImageView alloc] initWithFrame:CGRectMake(10,(height*4)/3,(width*2) - 20,height*2)];
-        //[_label2 setHidden:false];
-        //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:0./255 green:213./255 blue:0./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationPortrait: %ld", (long)UIInterfaceOrientationPortrait);
-        //[_label setText:@"New"];
-        //[_label2 setText:@"UIInterfaceOrientationPortrait"];
-    }
-    else if (orientation == UIInterfaceOrientationLandscapeRight)
-    {
-        //_label.frame = CGRectMake(width-150, 35, 150, 70);
-        //_label2.frame = CGRectMake(width, 35, 150, 70);
-        
-        //_image.frame = CGRectMake(_width/2, 0, _width, _height);
-        
-        //_image.frame = CGRectMake(10,(height*4)/3,(width*2) - 20,height*2);
-        
-        //[_label2 setHidden:TRUE];
-        //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:255./255 green:0./255 blue:0./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationLandscapeRight: %ld", (long)UIInterfaceOrientationLandscapeRight);
-        //[_label setText:@"New\tUIInterfaceOrientationLandscapeRight"];
-    }
-    else if (orientation == UIInterfaceOrientationLandscapeLeft)
-    {
-        //_label.frame = CGRectMake(width-150, 35, 150, 70);
-        //_label2.frame = CGRectMake(width, 35, 150, 70);
-        //_image.frame = CGRectMake(10,(height*4)/3,(width*2) - 20,height*2);
-        
-        //_image.frame = CGRectMake(_width/2, 0, _width, _height);
-        
-        //[_label2 setHidden:TRUE];        
-        //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:0./255 green:0./255 blue:255./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationLandscapeLeft: %ld", (long)UIInterfaceOrientationLandscapeLeft);
-        //[_label setText:@"New\tUIInterfaceOrientationLandscapeLeft"];
-    }
-    else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        //_label.frame = CGRectMake(width-150, 35, 300, 70);
-        //_label2.frame = CGRectMake(width-150, 100, 300, 70);
-        //_image.frame = CGRectMake(10,(height*4)/3,(width*2) - 20,height*2);
-        
-        //_image.frame = CGRectMake(0, _height/2, _width, _height/2);
-        
-        //[_label2 setHidden:false];
-        //[self.view setBackgroundColor:[[UIColor alloc] initWithRed:0./255 green:255./255 blue:255./255 alpha:0.5]];
-        NSLog(@"UIInterfaceOrientationPortraitUpsideDown: %ld", (long)UIInterfaceOrientationPortraitUpsideDown);
-        //[_label setText:@"New"];
-        //[_label2 setText:@"UIInterfaceOrientationPortraitUpsideDown"];
-    }
+    // (orientation == UIInterfaceOrientationLandscapeRight)
+    // (orientation == UIInterfaceOrientationLandscapeLeft)
     else
     {
-        [self.view setBackgroundColor:[[UIColor alloc] initWithRed:255./255 green:255./255 blue:255./255 alpha:0.5]];
+        NSLog(@"landscape");
+        _label3.font = [UIFont fontWithName:@"Courier-Bold" size:landscape_text_size_3];
+        _label4.font = [UIFont fontWithName:@"Courier-Bold" size:landscape_text_size_4];
+        
+        _label3.frame = CGRectMake(lx1_3, ly1_3, lx2_3, ly2_3);
+        _label4.frame = CGRectMake(lx1_4, ly1_4, lx2_4, ly2_4);
     }
     NSLog(@"%s", __FUNCTION__);
     NSLog(@"%ld", (long)orientation);
@@ -369,7 +267,7 @@ int _label_small_text_reducer = 15;
 }
 
 -(void)createSubviews {
-    arrayCount = [arrayNames count];
+    arrayCount = (int)[arrayNames count];
     
     _image =[[UIImageView alloc] initWithFrame:CGRectMake(0,0, _width, _height)];
     _image.image=[UIImage imageNamed:arrayImages[arrayIndex]];
@@ -391,7 +289,6 @@ int _label_small_text_reducer = 15;
     _label2 = [[UILabel alloc] initWithFrame:CGRectMake(_width-150, 100, _width, _height)];
     _label2.text = arrayNames[arrayIndex];
     _label2.backgroundColor = grey70;
-    //_label2.backgroundColor = [UIColor clearColor];
     _label2.textColor = [UIColor blackColor];
     _label2.highlightedTextColor = [UIColor blackColor];
     _label2.font = [UIFont fontWithName:@"Courier" size:_height/10];
@@ -401,12 +298,8 @@ int _label_small_text_reducer = 15;
     [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
     
     
-/* CREDITS-----------------*/
-    
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    
-    _label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, width, height)];
+/* -------------CREDITS-----------------*/
+    _label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, _width, _height)];
     _label1.text = @"Credits";
     _label1.backgroundColor = [UIColor clearColor];
     _label1.textColor = [UIColor blackColor];
@@ -415,16 +308,12 @@ int _label_small_text_reducer = 15;
     _label1.textAlignment = NSTextAlignmentCenter;
     _label1.hidden = true;
     [self.view addSubview:_label1];
-    CGSize _label1_textSize = [_label1.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
-    _label1.frame = CGRectMake(0, 20, width, _label1_textSize.height);
     
-    
-    
-    int currentHeight =  _label1_textSize.height + 20;
-    
+    _label1_textSize = [_label1.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
+    _label1.frame = CGRectMake(0, 20, _width, _label1_textSize.height);
+
     _label3 = [[UILabel alloc] initWithFrame:CGRectMake(0, _label1_textSize.height, _width*2, _height)];
     _label3.text = @"all images as original\nlicensed under Creative Commons\nhttps://creativecommons.org/licenses/by/2.0/";
-    
     _label3.numberOfLines = 0;
     _label3.backgroundColor = [UIColor clearColor];
     _label3.textColor = [UIColor blackColor];
@@ -433,26 +322,6 @@ int _label_small_text_reducer = 15;
     _label3.hidden = true;
     [self.view addSubview:_label3];
     
-    // fit text within width of screen...
-    CGSize _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height]}];
-    int multiplier = 1;
-    
-    while (_label3_textSize.width > width){
-        multiplier++;
-        _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/multiplier]}];
-    }
-    
-    NSLog(@"width: %f, height: %f", _label3_textSize.width, _label3_textSize.height);
-    
-    _label3.font = [UIFont fontWithName:@"Courier" size:_height/multiplier];
-    
-    _label3.frame = CGRectMake(0, currentHeight, width, _label3_textSize.height);
-    
-    currentHeight = currentHeight + _label3_textSize.height;
-    
-    
-    //myInt = (-_height/2) + 100 + (_height/20)*2.5;
-        multiplier = 1;
     _label4 = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, _width, _height)];
     _label4.backgroundColor = [UIColor clearColor];
     _label4.textColor = [UIColor blackColor];
@@ -461,32 +330,160 @@ int _label_small_text_reducer = 15;
     _label4.textAlignment = NSTextAlignmentCenter;
     _label4.hidden = true;
     _label4.numberOfLines = 0;
-    
     NSMutableString *testString = [NSMutableString string];
-    
     for(int i=0;i<27;i++){
         [testString appendString:arrayCredits[i]];
         [testString appendString:@"\n"];
     }
-    
     _label4.text = testString;
     [self.view addSubview:_label4];
     
+    int portrait_width;
+    int portrait_height;
+    int landscape_width;
+    int landscape_height;
+    
+    // set portrait dimensions first
+    if([UIScreen mainScreen].bounds.size.width > [UIScreen mainScreen].bounds.size.height) {
+        portrait_height=[UIScreen mainScreen].bounds.size.width;
+        landscape_width=[UIScreen mainScreen].bounds.size.width;
+        portrait_width=[UIScreen mainScreen].bounds.size.height;
+        landscape_height=[UIScreen mainScreen].bounds.size.height;
+    }
+    else{
+        portrait_height=[UIScreen mainScreen].bounds.size.height;
+        landscape_width=[UIScreen mainScreen].bounds.size.height;
+        portrait_width=[UIScreen mainScreen].bounds.size.width;
+        landscape_height=[UIScreen mainScreen].bounds.size.width;
+    }
+    NSLog(@"portrait dimensions: %d, %d", portrait_height, portrait_width);
+    
+    int currentHeight =  _label1_textSize.height + 20;
+    
+    // fit text within width of screen...
+    CGSize _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:portrait_height]}];
+    int multiplier = 1;
+    
+    while (_label3_textSize.width > portrait_width){
+        multiplier++;
+        _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:portrait_height/multiplier]}];
+    }
+    NSLog(@"width: %f, height: %f", _label3_textSize.width, _label3_textSize.height);
+    
+    portrait_text_size_3 = portrait_height/multiplier;
+    px1_3 = 0;
+    px2_3 = portrait_width;
+    py1_3 = currentHeight;
+    py2_3 = _label3_textSize.height;
+    _label3.font = [UIFont fontWithName:@"Courier" size:portrait_height/multiplier];
+    _label3.frame = CGRectMake(0, currentHeight, portrait_width, _label3_textSize.height);
+    currentHeight = currentHeight + _label3_textSize.height;
+
+    
+    multiplier = 1;
     // the size to fit the credits...
 
-    int remainingHeight = height - currentHeight;
+    int remainingHeight = portrait_height - currentHeight;
     
-    CGSize _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/multiplier]}];
+    CGSize _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:portrait_height/multiplier]}];
 
     while (_label4_textSize.height > remainingHeight){
         multiplier++;
-        _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/multiplier]}];
+        _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:portrait_height/multiplier]}];
     }
     
-     NSLog(@"widht: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
-    _label4.font = [UIFont fontWithName:@"Courier" size:_height/multiplier];
+     NSLog(@"width: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
+    _label4.font = [UIFont fontWithName:@"Courier" size:portrait_height/multiplier];
+    _label4.frame = CGRectMake(0, currentHeight, _label4_textSize.width, remainingHeight);
+
+    portrait_text_size_4 = portrait_height/multiplier;
+    px1_4 = 0;
+    px2_4 = _label4_textSize.width;
+    py1_4 = currentHeight;
+    py2_4 = remainingHeight;
+    
+    // NOW SET LANDSCAPE VARS
+    currentHeight =  _label1_textSize.height + 20;
+
+    NSLog(@"landscape dimensions: %d, %d", landscape_height, landscape_width);
+    
+    // fit text within width of screen...
+    _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:landscape_height]}];
+    multiplier = 1;
+    
+    while (_label3_textSize.width > landscape_width){
+        multiplier++;
+        _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:landscape_height/multiplier]}];
+    }
+    NSLog(@"width: %f, height: %f", _label3_textSize.width, _label3_textSize.height);
+    
+    landscape_text_size_3 = landscape_height/multiplier;
+    lx1_3 = 0;
+    lx2_3 = landscape_width;
+    ly1_3 = currentHeight;
+    ly2_3 = _label3_textSize.height;
+    _label3.font = [UIFont fontWithName:@"Courier" size:landscape_height/multiplier];
+    _label3.frame = CGRectMake(0, currentHeight, landscape_width, _label3_textSize.height);
+    currentHeight = currentHeight + _label3_textSize.height;
+    
+    
+    multiplier = 1;
+    // the size to fit the credits...
+    
+    remainingHeight = landscape_height - currentHeight;
+    
+    _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:landscape_height/multiplier]}];
+    
+    while (_label4_textSize.height > remainingHeight){
+        multiplier++;
+        _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:landscape_height/multiplier]}];
+    }
+    
+    NSLog(@"width: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
+    _label4.font = [UIFont fontWithName:@"Courier" size:landscape_height/multiplier];
     _label4.frame = CGRectMake(0, currentHeight, _label4_textSize.width, remainingHeight);
     
+    landscape_text_size_4 = landscape_height/multiplier;
+    lx1_4 = 0;
+    lx2_4 = landscape_width;//_label4_textSize.width;
+    ly1_4 = currentHeight;
+    ly2_4 = remainingHeight;
+}
+                        
+-(UIColor*)colorWithHexString:(NSString*)hex {
+    NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+    
+    // String should be 6 or 8 characters
+    if ([cString length] < 6) return [UIColor grayColor];
+    
+    // strip 0X if it appears
+    if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
+    
+    if ([cString length] != 6) return  [UIColor grayColor];
+    
+    // Separate into r, g, b substrings
+    NSRange range = NSMakeRange(0, [cString length]);
+    
+    range.location = 0;
+    range.length = 2;
+    NSString *rString = [cString substringWithRange:range];
+    
+    range.location = 2;
+    NSString *gString = [cString substringWithRange:range];
+    
+    range.location = 4;
+    NSString *bString = [cString substringWithRange:range];
+    
+    // Scan values
+    unsigned int r, g, b;
+    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+    
+    return [UIColor colorWithRed:((float) r / 255.0f)
+                           green:((float) g / 255.0f)
+                            blue:((float) b / 255.0f)
+                           alpha:1.0f];
 }
 
 - (void)didReceiveMemoryWarning {
