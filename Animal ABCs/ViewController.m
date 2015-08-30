@@ -125,7 +125,12 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         CGSize textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
         
-        _image.image=[UIImage imageNamed:arrayImages[arrayIndex]];
+        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[arrayIndex]]];
+        NSLog(@"Right swipe received, path %@", fullpath);
+        
+        UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
+        _image.image = loadImage;
+        
         
         [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
 
@@ -164,9 +169,12 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         CGSize textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
         
+        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[arrayIndex]]];
+        NSLog(@"Left swipe received, path %@", fullpath);
         
-        _image.image=[UIImage imageNamed:arrayImages[arrayIndex]];
-    
+        UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
+        _image.image = loadImage;
+        
         [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
     
         [(AVAudioPlayer *)_audioPlayers[arrayIndex] play];
