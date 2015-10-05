@@ -201,19 +201,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     _label1.frame = CGRectMake(0, 20, width, _label1_textSize.height);
     
-    /*
-    NSLog(@"portrait: %d",portrait_text_size_3);
-    NSLog(@"portrait: %d",portrait_text_size_4);
-    NSLog(@"portrait: %d,%d,%d,%d",px1_3, py1_3, px2_3, py2_3);
-    NSLog(@"portrait: %d,%d,%d,%d",px1_4, py1_4, px2_4, py2_4);
-    
-    NSLog(@"landscape: %d",landscape_text_size_3);
-    NSLog(@"landscape: %d",landscape_text_size_4);
-    NSLog(@"landscape: %d,%d,%d,%d",lx1_3, ly1_3, lx2_3, ly2_3);
-    NSLog(@"landscape: %d,%d,%d,%d",lx1_4, ly1_4, lx2_4, ly2_4);
-    */
-    if ((orientation == UIInterfaceOrientationPortrait) ||
-            (orientation == UIInterfaceOrientationPortraitUpsideDown)){
+    if (height > width) {
         NSLog(@"portrait");
         _label3.font = [UIFont fontWithName:@"Courier-Bold" size:portrait_text_size_3];
         _label3.frame = CGRectMake(px1_3, py1_3, px2_3, py2_3);
@@ -222,15 +210,13 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         _label4.frame = CGRectMake(px1_4, py1_4, px2_4, py2_4);
         
     }
-    // (orientation == UIInterfaceOrientationLandscapeRight)
-    // (orientation == UIInterfaceOrientationLandscapeLeft)
     else
     {
         NSLog(@"landscape");
         _label3.font = [UIFont fontWithName:@"Courier-Bold" size:landscape_text_size_3];
-        _label4.font = [UIFont fontWithName:@"Courier-Bold" size:landscape_text_size_4];
-        
         _label3.frame = CGRectMake(lx1_3, ly1_3, lx2_3, ly2_3);
+        
+        _label4.font = [UIFont fontWithName:@"Courier-Bold" size:landscape_text_size_4];
         _label4.frame = CGRectMake(lx1_4, ly1_4, lx2_4, ly2_4);
     }
     NSLog(@"%s", __FUNCTION__);
@@ -283,7 +269,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label = [UILabel new];
     _label.text = arrayLetters[arrayIndex];
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_big_text_reducer]}];
-    _label.frame = CGRectMake(20, 20, textSize.width, textSize.height);
+    _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
     _label.backgroundColor = grey70;
     _label.textColor = [UIColor blackColor];
     _label.highlightedTextColor = [UIColor blackColor];
@@ -306,7 +292,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     
 /* -------------CREDITS-----------------*/
-    _label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, _width, _height)];
+    _label1 = [UILabel new];
     _label1.text = @"Credits";
     _label1.backgroundColor = [UIColor clearColor];
     _label1.textColor = [UIColor blackColor];
@@ -314,12 +300,11 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label1.font = [UIFont fontWithName:@"Courier-Bold" size:_height/_label_medium_text_reducer];
     _label1.textAlignment = NSTextAlignmentCenter;
     _label1.hidden = true;
-    [self.view addSubview:_label1];
-    
     _label1_textSize = [_label1.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
     _label1.frame = CGRectMake(0, 20, _width, _label1_textSize.height);
-
-    _label3 = [[UILabel alloc] initWithFrame:CGRectMake(0, _label1_textSize.height, _width*2, _height)];
+    [self.view addSubview:_label1];
+    
+    _label3 = [UILabel new];
     _label3.text = @"all images as original\nlicensed under Creative Commons\nhttps://creativecommons.org/licenses/by/2.0/";
     _label3.numberOfLines = 0;
     _label3.backgroundColor = [UIColor clearColor];
@@ -329,7 +314,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label3.hidden = true;
     [self.view addSubview:_label3];
     
-    _label4 = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, _width, _height)];
+    _label4 = [UILabel new];
     _label4.backgroundColor = [UIColor clearColor];
     _label4.textColor = [UIColor blackColor];
     _label4.highlightedTextColor = [UIColor blackColor];
@@ -337,12 +322,12 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label4.textAlignment = NSTextAlignmentCenter;
     _label4.hidden = true;
     _label4.numberOfLines = 0;
-    NSMutableString *testString = [NSMutableString string];
+    NSMutableString *tempString = [NSMutableString string];
     for(int i=0;i<27;i++){
-        [testString appendString:arrayCredits[i]];
-        [testString appendString:@"\n"];
+        [tempString appendString:arrayCredits[i]];
+        [tempString appendString:@"\n"];
     }
-    _label4.text = testString;
+    _label4.text = tempString;
     [self.view addSubview:_label4];
     
     int portrait_width;
@@ -363,7 +348,9 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         portrait_width=[UIScreen mainScreen].bounds.size.width;
         landscape_height=[UIScreen mainScreen].bounds.size.width;
     }
-    NSLog(@"portrait dimensions: %d, %d", portrait_height, portrait_width);
+    
+    // NOW SET PORTRAIT VARS
+    NSLog(@"portrait dimensions: %d, %d", portrait_width, portrait_height);
     
     int currentHeight =  _label1_textSize.height + 20;
     
@@ -382,11 +369,11 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     px2_3 = portrait_width;
     py1_3 = currentHeight;
     py2_3 = _label3_textSize.height;
-    _label3.font = [UIFont fontWithName:@"Courier" size:portrait_height/multiplier];
-    _label3.frame = CGRectMake(0, currentHeight, portrait_width, _label3_textSize.height);
+/*
+    _label3.font = [UIFont fontWithName:@"Courier-Bold" size:portrait_text_size_3];
+    _label3.frame = CGRectMake(px1_3, py1_3, px2_3, py2_3);
+  */
     currentHeight = currentHeight + _label3_textSize.height;
-
-    
     multiplier = 1;
     // the size to fit the credits...
 
@@ -399,20 +386,21 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:portrait_height/multiplier]}];
     }
     
-     NSLog(@"width: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
-    _label4.font = [UIFont fontWithName:@"Courier" size:portrait_height/multiplier];
-    _label4.frame = CGRectMake(0, currentHeight, _label4_textSize.width, remainingHeight);
+    NSLog(@"width: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
 
     portrait_text_size_4 = portrait_height/multiplier;
     px1_4 = 0;
-    px2_4 = _label4_textSize.width;
+    px2_4 = portrait_width;
     py1_4 = currentHeight;
     py2_4 = remainingHeight;
-    
+/*
+    _label4.font = [UIFont fontWithName:@"Courier-Bold" size:portrait_text_size_4];
+    _label4.frame = CGRectMake(px1_4, py1_4, px2_4, py2_4);
+  */
     // NOW SET LANDSCAPE VARS
     currentHeight =  _label1_textSize.height + 20;
 
-    NSLog(@"landscape dimensions: %d, %d", landscape_height, landscape_width);
+    NSLog(@"landscape dimensions: %d, %d", landscape_width, landscape_height);
     
     // fit text within width of screen...
     _label3_textSize = [_label3.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:landscape_height]}];
@@ -429,8 +417,11 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     lx2_3 = landscape_width;
     ly1_3 = currentHeight;
     ly2_3 = _label3_textSize.height;
-    _label3.font = [UIFont fontWithName:@"Courier" size:landscape_height/multiplier];
-    _label3.frame = CGRectMake(0, currentHeight, landscape_width, _label3_textSize.height);
+    /*
+    _label3.font = [UIFont fontWithName:@"Courier-Bold" size:landscape_text_size_3];
+    _label3.frame = CGRectMake(lx1_3, ly1_3, lx2_3, ly2_3);
+    */
+    
     currentHeight = currentHeight + _label3_textSize.height;
     
     
@@ -447,14 +438,17 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     }
     
     NSLog(@"width: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
-    _label4.font = [UIFont fontWithName:@"Courier" size:landscape_height/multiplier];
-    _label4.frame = CGRectMake(0, currentHeight, _label4_textSize.width, remainingHeight);
     
     landscape_text_size_4 = landscape_height/multiplier;
     lx1_4 = 0;
     lx2_4 = landscape_width;//_label4_textSize.width;
     ly1_4 = currentHeight;
     ly2_4 = remainingHeight;
+   /*
+    _label4.font = [UIFont fontWithName:@"Courier-Bold" size:landscape_text_size_4];
+    _label4.frame = CGRectMake(lx1_4, ly1_4, lx2_4, ly2_4);
+*/
+    [self shouldAutorotate];
 }
                         
 -(UIColor*)colorWithHexString:(NSString*)hex {
