@@ -118,7 +118,7 @@ int main(int argc, char * argv[]) {
     [arrayCredits addObject: @"bear - NPS/K. Jalone./Flickr"];
     [arrayCredits addObject: @"cat - jacinta lluch valero/Flickr"];
     [arrayCredits addObject: @"dog - Aleksey Gnilenkov/Flickr"];
-    [arrayCredits addObject: @"elephant - guido da rozze/Flickr"];
+    [arrayCredits addObject: @"elephant - Matt Biddulph/Flickr"];
     [arrayCredits addObject: @"flamingo - William Warby/Flickr"];
     [arrayCredits addObject: @"giraffe - Daniel Ramirez/Flickr"];
     [arrayCredits addObject: @"horse - Peter aka anemoneprojectors/Flickr"];
