@@ -191,7 +191,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     
-    _image.frame = CGRectMake(0, 0, _height, _width);
+    _image.frame = CGRectMake(0, 0, width, height);
     
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_big_text_reducer]}];
     _label.frame = CGRectMake(20, 20, textSize.width, textSize.height);
@@ -201,6 +201,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     _label1.frame = CGRectMake(0, 20, width, _label1_textSize.height);
     
+    /*
     NSLog(@"portrait: %d",portrait_text_size_3);
     NSLog(@"portrait: %d",portrait_text_size_4);
     NSLog(@"portrait: %d,%d,%d,%d",px1_3, py1_3, px2_3, py2_3);
@@ -210,7 +211,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     NSLog(@"landscape: %d",landscape_text_size_4);
     NSLog(@"landscape: %d,%d,%d,%d",lx1_3, ly1_3, lx2_3, ly2_3);
     NSLog(@"landscape: %d,%d,%d,%d",lx1_4, ly1_4, lx2_4, ly2_4);
-    
+    */
     if ((orientation == UIInterfaceOrientationPortrait) ||
             (orientation == UIInterfaceOrientationPortraitUpsideDown)){
         NSLog(@"portrait");
@@ -244,6 +245,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self setUpViewForOrientation:toInterfaceOrientation];
+    [self shouldAutorotate];
 }
 
 -(void)clearCredits {
@@ -281,7 +283,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label = [UILabel new];
     _label.text = arrayLetters[arrayIndex];
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_big_text_reducer]}];
-    _label.frame = CGRectMake(20, 20, textSize.width + 20, textSize.height);
+    _label.frame = CGRectMake(20, 20, textSize.width, textSize.height);
     _label.backgroundColor = grey70;
     _label.textColor = [UIColor blackColor];
     _label.highlightedTextColor = [UIColor blackColor];
