@@ -94,6 +94,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
 }
 
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)sender {
+    
     NSLog(@"Pinch received.");    
 }
 
@@ -190,7 +191,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     
-    _image.frame = CGRectMake(0, 0, width, height);
+    _image.frame = CGRectMake(0, 0, _height, _width);
     
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_big_text_reducer]}];
     _label.frame = CGRectMake(20, 20, textSize.width, textSize.height);
@@ -253,7 +254,6 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label4.hidden = true;
     
     _image.hidden = false;
-
 }
 
 -(void)setCredits {
@@ -264,7 +264,6 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label4.hidden = false;
     
     _image.hidden = true;
-    
     
     [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
 }
@@ -277,24 +276,27 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _image.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:_image];
     
-    
     UIColor* grey70 = [UIColor colorWithWhite: 1.0 alpha:0.45];
     
-    _label = [[UILabel alloc] initWithFrame:CGRectMake(_width-150, 0, _width, _height)];
+    _label = [UILabel new];
     _label.text = arrayLetters[arrayIndex];
+    CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_big_text_reducer]}];
+    _label.frame = CGRectMake(20, 20, textSize.width + 20, textSize.height);
     _label.backgroundColor = grey70;
     _label.textColor = [UIColor blackColor];
     _label.highlightedTextColor = [UIColor blackColor];
-    _label.font = [UIFont fontWithName:@"Courier-Bold" size:_height/5];
+    _label.font = [UIFont fontWithName:@"Courier-Bold" size:_height/_label_big_text_reducer];
     _label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_label];
-
-    _label2 = [[UILabel alloc] initWithFrame:CGRectMake(_width-150, 100, _width, _height)];
+    
+    _label2 = [UILabel new];
     _label2.text = arrayNames[arrayIndex];
+    textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
+    _label2.frame = CGRectMake(_width - 20 - textSize.width, _height - 20 - textSize.height, textSize.width, textSize.height);
     _label2.backgroundColor = grey70;
     _label2.textColor = [UIColor blackColor];
     _label2.highlightedTextColor = [UIColor blackColor];
-    _label2.font = [UIFont fontWithName:@"Courier" size:_height/10];
+    _label2.font = [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer];
     _label2.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:_label2];
     
