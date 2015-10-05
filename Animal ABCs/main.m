@@ -87,7 +87,7 @@ int main(int argc, char * argv[]) {
     [arrayImages addObject: @"bear.jpg"];
     [arrayImages addObject: @"cat.jpg"];
     [arrayImages addObject: @"dog3.jpg"];
-    [arrayImages addObject: @"elephant.jpg"];
+    [arrayImages addObject: @"elephant2.jpg"];
     [arrayImages addObject: @"flamingo.jpg"];
     [arrayImages addObject: @"giraffe.jpg"];
     [arrayImages addObject: @"horse.jpg"];
