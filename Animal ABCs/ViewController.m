@@ -183,11 +183,6 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     }
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-    
-    return UIInterfaceOrientationMaskAll;
-}
-
 - (BOOL)shouldAutorotate {
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
