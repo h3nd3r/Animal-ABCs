@@ -3,7 +3,7 @@
 //  Animal ABCs
 //
 //  Created by Sara Hender on 9/28/14.
-//  Copyright (c) 2014 42 Dragons Software LLC. All rights reserved.
+//  Copyright (c) 2014 Sara Hender. All rights reserved.
 //
 
 #import "ViewController.h"
