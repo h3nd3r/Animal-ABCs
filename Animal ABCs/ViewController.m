@@ -7,10 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "CollectionViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
 @interface ViewController ()
+- (UIColor*)colorWithHexString:(NSString*)hex;
 @end
 
 // default
@@ -36,8 +38,9 @@ CGSize _label1_textSize;
 CGFloat _width;
 CGFloat _height;
 
-int arrayIndex = 0;
+/*_arrayIndex = 0;*/
 int arrayCount;
+int collectionIndex = 0;
 
 int _label_big_text_reducer = 5;
 int _label_medium_text_reducer = 10;
@@ -58,67 +61,102 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
 
 @implementation ViewController
 
+- (id)init
+{
+    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"0");
+    if (self = [super init]) {
+        NSLog(@"1");
+    }
+    _arrayIndex = 0;
+    return self;
+}
+
 - (void)viewDidLoad {
+    NSLog(@"%s", __FUNCTION__);
     
     [super viewDidLoad];
-
+    
     // screen dimensions
     _width = [UIScreen mainScreen].bounds.size.width;
     _height = [UIScreen mainScreen].bounds.size.height;
-    NSLog(@"%f", _width);
-    NSLog(@"%f", _height);
+    NSLog(@"width: %f", _width);
+    NSLog(@"height: %f", _height);
     
     [self createSubviews];
     
     UIGestureRecognizer *gestureRecognizer;
-    UISwipeGestureRecognizer *recognizer;
-
+    UISwipeGestureRecognizer *swipeRecognizer;
+    UIPinchGestureRecognizer *pinchRecognizer;
+    
     gestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [[self view] addGestureRecognizer:gestureRecognizer];
-    //[recognizer release];
     
-    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
-    [[self view] addGestureRecognizer:recognizer];
-    //[recognizer release];
+    swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+    [swipeRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [[self view] addGestureRecognizer:swipeRecognizer];
     
-    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-    [[self view] addGestureRecognizer:recognizer];
-    //[recognizer release];
+    swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+    [swipeRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [[self view] addGestureRecognizer:swipeRecognizer];
+    
+    pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
+    [[self view] addGestureRecognizer:pinchRecognizer];
     
     // play sound
-    [(AVAudioPlayer *)_audioPlayers[arrayIndex] play];
+    [(AVAudioPlayer *)_audioPlayers[_arrayIndex] play];
     
-    NSLog(@"%s", __FUNCTION__);
 }
 
-- (void)handlePinchGesture:(UIPinchGestureRecognizer *)sender {
+- (IBAction)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer {
+    NSLog(@"%s", __FUNCTION__);
     
-    NSLog(@"Pinch received.");    
+    
+    if(UIGestureRecognizerStateEnded == recognizer.state){
+        NSLog(@"Pinch ended 1: %s", __FUNCTION__);
+        
+        CollectionViewController *collectionViewController = [[CollectionViewController alloc] init];
+        
+        NSLog(@"Pinch ended 2: %s", __FUNCTION__);
+        
+        collectionViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+        
+        
+        NSLog(@"Pinch ended 3: %s", __FUNCTION__);
+        //collectionViewController.transitionStyle = UIModalTransitionStyleCoverVertical;
+        [collectionViewController turkey];
+        
+        NSLog(@"Pinch ended 4: %s", __FUNCTION__);
+       
+        [self presentViewController:collectionViewController animated:YES completion: nil];
+        
+        NSLog(@"Pinch ended 5: %s", __FUNCTION__);
+    }
 }
 
 -(void)handleSwipeFromRight:(UISwipeGestureRecognizer *)recognizer {
-    if (arrayIndex !=26) {
+    NSLog(@"%s", __FUNCTION__);
+    
+    if (_arrayIndex !=26) {
         // stop playing any sounds & rewind
-        [(AVAudioPlayer *)_audioPlayers[arrayIndex] stop];
-        [(AVAudioPlayer *)_audioPlayers[arrayIndex] setCurrentTime:0];
+        [(AVAudioPlayer *)_audioPlayers[_arrayIndex] stop];
+        [(AVAudioPlayer *)_audioPlayers[_arrayIndex] setCurrentTime:0];
     }
     
-    arrayIndex--;
-    NSLog(@"Right swipe received, arrayIndex %d", arrayIndex);
+    _arrayIndex--;
+    NSLog(@"Right swipe received, arrayIndex %d", _arrayIndex);
 
-    if(arrayIndex < 0) {
-        arrayIndex = arrayCount - 1;
+    if(_arrayIndex < 0) {
+        _arrayIndex = arrayCount - 1;
     }
 
-    if (arrayIndex == 25) {
+    if (_arrayIndex == 25) {
         [self clearCredits];
     }
     
-    if (arrayIndex !=26) {
-        _label.text = arrayLetters[arrayIndex];
-        _label2.text = arrayNames[arrayIndex];
+    if (_arrayIndex !=26) {
+        _label.text = arrayLetters[_arrayIndex];
+        _label2.text = arrayNames[_arrayIndex];
         
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         CGFloat height = [UIScreen mainScreen].bounds.size.height;
@@ -126,43 +164,44 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         CGSize textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
         
-        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[arrayIndex]]];
+        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[_arrayIndex]]];
         NSLog(@"Right swipe received, path %@", fullpath);
         
         UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
         _image.image = loadImage;
         
         
-        [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
+        [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
 
-        [(AVAudioPlayer *)_audioPlayers[arrayIndex] play];
+        [(AVAudioPlayer *)_audioPlayers[_arrayIndex] play];
     } else {
         [self setCredits];
     }
 }
 
 -(void)handleSwipeFromLeft:(UISwipeGestureRecognizer *)recognizer {
+    NSLog(@"%s", __FUNCTION__);
     
-    if (arrayIndex !=26) {
+    if (_arrayIndex !=26) {
         // stop playing any sounds & ...
-        [(AVAudioPlayer *)_audioPlayers[arrayIndex] stop];
-        [(AVAudioPlayer *)_audioPlayers[arrayIndex] setCurrentTime:0];
+        [(AVAudioPlayer *)_audioPlayers[_arrayIndex] stop];
+        [(AVAudioPlayer *)_audioPlayers[_arrayIndex] setCurrentTime:0];
     }
     
-    arrayIndex++;
-    NSLog(@"Left swipe received, arrayIndex %d", arrayIndex);
+    _arrayIndex++;
+    NSLog(@"Left swipe received, _arrayIndex %d", _arrayIndex);
 
-    if(arrayIndex >= arrayCount) {
-        arrayIndex = 0;
+    if(_arrayIndex >= arrayCount) {
+        _arrayIndex = 0;
     }
 
-    if (arrayIndex == 0) {
+    if (_arrayIndex == 0) {
         [self clearCredits];
     }
     
-    if (arrayIndex !=26) {
-        _label.text = arrayLetters[arrayIndex];
-        _label2.text = arrayNames[arrayIndex];
+    if (_arrayIndex !=26) {
+        _label.text = arrayLetters[_arrayIndex];
+        _label2.text = arrayNames[_arrayIndex];
 
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         CGFloat height = [UIScreen mainScreen].bounds.size.height;
@@ -170,21 +209,22 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         CGSize textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
         
-        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[arrayIndex]]];
+        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[_arrayIndex]]];
         NSLog(@"Left swipe received, path %@", fullpath);
         
         UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
         _image.image = loadImage;
         
-        [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
+        [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
     
-        [(AVAudioPlayer *)_audioPlayers[arrayIndex] play];
+        [(AVAudioPlayer *)_audioPlayers[_arrayIndex] play];
     } else {
         [self setCredits];
     }
 }
 
 - (BOOL)shouldAutorotate {
+    NSLog(@"%s", __FUNCTION__);
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     
@@ -230,6 +270,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    NSLog(@"%s", __FUNCTION__);
+    
     [self setUpViewForOrientation:toInterfaceOrientation];
     [self shouldAutorotate];
 }
@@ -253,21 +295,22 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     _image.hidden = true;
     
-    [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
+    [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
 }
 
 -(void)createSubviews {
+    NSLog(@"%s", __FUNCTION__);    
     arrayCount = (int)[arrayNames count];
     
     _image =[[UIImageView alloc] initWithFrame:CGRectMake(0,0, _width, _height)];
-    _image.image=[UIImage imageNamed:arrayImages[arrayIndex]];
+    _image.image=[UIImage imageNamed:arrayImages[_arrayIndex]];
     _image.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:_image];
     
     UIColor* grey70 = [UIColor colorWithWhite: 1.0 alpha:0.45];
     
     _label = [UILabel new];
-    _label.text = arrayLetters[arrayIndex];
+    _label.text = arrayLetters[_arrayIndex];
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_big_text_reducer]}];
     _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
     _label.backgroundColor = grey70;
@@ -278,7 +321,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     [self.view addSubview:_label];
     
     _label2 = [UILabel new];
-    _label2.text = arrayNames[arrayIndex];
+    _label2.text = arrayNames[_arrayIndex];
     textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:_height/_label_medium_text_reducer]}];
     _label2.frame = CGRectMake(_width - 20 - textSize.width, _height - 20 - textSize.height, textSize.width, textSize.height);
     _label2.backgroundColor = grey70;
@@ -288,7 +331,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label2.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:_label2];
     
-    [self.view setBackgroundColor:[self colorWithHexString:arrayColors[arrayIndex]]];
+    [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
     
     
 /* -------------CREDITS-----------------*/

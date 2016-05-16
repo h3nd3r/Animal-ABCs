@@ -7,16 +7,26 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+#import "CollectionViewController.h"
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-
+//UICollectionViewController * collectionViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    /*    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController"
+                                                           bundle:nil];
+    UICollectionViewController *collectionViewController = [[UICollectionViewController alloc]initWithRootViewController:self.viewController];*/
+    //collectionViewController = [[UICollectionViewController alloc] init];
+    /*
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];*/
     return YES;
 }
 
