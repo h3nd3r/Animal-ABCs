@@ -7,13 +7,10 @@
 //
 
 #import "ViewController.h"
+#import "Utils.h"
 #import "CollectionViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
-
-@interface ViewController ()
-- (UIColor*)colorWithHexString:(NSString*)hex;
-@end
 
 // default
 UILabel *_label;
@@ -124,7 +121,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         
         NSLog(@"Pinch ended 3: %s", __FUNCTION__);
         //collectionViewController.transitionStyle = UIModalTransitionStyleCoverVertical;
-        [collectionViewController turkey];
+        //[collectionViewController turkey];
         
         NSLog(@"Pinch ended 4: %s", __FUNCTION__);
        
@@ -171,7 +168,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         _image.image = loadImage;
         
         
-        [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
+        [self.view setBackgroundColor:[Utils colorWithHexString:arrayColors[_arrayIndex]]];
 
         [(AVAudioPlayer *)_audioPlayers[_arrayIndex] play];
     } else {
@@ -215,7 +212,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
         _image.image = loadImage;
         
-        [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
+        [self.view setBackgroundColor:[Utils colorWithHexString:arrayColors[_arrayIndex]]];
     
         [(AVAudioPlayer *)_audioPlayers[_arrayIndex] play];
     } else {
@@ -295,7 +292,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     _image.hidden = true;
     
-    [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
+    [self.view setBackgroundColor:[Utils colorWithHexString:arrayColors[_arrayIndex]]];
 }
 
 -(void)createSubviews {
@@ -331,7 +328,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label2.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:_label2];
     
-    [self.view setBackgroundColor:[self colorWithHexString:arrayColors[_arrayIndex]]];
+    [self.view setBackgroundColor:[Utils colorWithHexString:arrayColors[_arrayIndex]]];
     
     
 /* -------------CREDITS-----------------*/
@@ -494,42 +491,6 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     [self shouldAutorotate];
 }
                         
--(UIColor*)colorWithHexString:(NSString*)hex {
-    NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
-    
-    // String should be 6 or 8 characters
-    if ([cString length] < 6) return [UIColor grayColor];
-    
-    // strip 0X if it appears
-    if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
-    
-    if ([cString length] != 6) return  [UIColor grayColor];
-    
-    // Separate into r, g, b substrings
-    NSRange range = NSMakeRange(0, [cString length]);
-    
-    range.location = 0;
-    range.length = 2;
-    NSString *rString = [cString substringWithRange:range];
-    
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
-    
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
-    
-    // Scan values
-    unsigned int r, g, b;
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    
-    return [UIColor colorWithRed:((float) r / 255.0f)
-                           green:((float) g / 255.0f)
-                            blue:((float) b / 255.0f)
-                           alpha:1.0f];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

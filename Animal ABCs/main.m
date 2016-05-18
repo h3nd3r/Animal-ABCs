@@ -11,6 +11,7 @@
 
 NSMutableArray *arrayNames;
 NSMutableArray *arrayLetters;
+NSMutableArray *arrayLetter;
 NSMutableArray *arrayImages;
 NSMutableArray *arrayCredits;
 NSMutableArray *arrayAudio;
@@ -80,6 +81,36 @@ int main(int argc, char * argv[]) {
     [arrayLetters addObject: @"Yy"];
     [arrayLetters addObject: @"Zz"];
     [arrayLetters addObject: @"Photo Credits"];
+
+    arrayLetter = [[NSMutableArray alloc] init];
+    
+    [arrayLetter addObject: @"A"];
+    [arrayLetter addObject: @"B"];
+    [arrayLetter addObject: @"C"];
+    [arrayLetter addObject: @"D"];
+    [arrayLetter addObject: @"E"];
+    [arrayLetter addObject: @"F"];
+    [arrayLetter addObject: @"G"];
+    [arrayLetter addObject: @"H"];
+    [arrayLetter addObject: @"I"];
+    [arrayLetter addObject: @"J"];
+    [arrayLetter addObject: @"K"];
+    [arrayLetter addObject: @"L"];
+    [arrayLetter addObject: @"M"];
+    [arrayLetter addObject: @"N"];
+    [arrayLetter addObject: @"O"];
+    [arrayLetter addObject: @"P"];
+    [arrayLetter addObject: @"Q"];
+    [arrayLetter addObject: @"R"];
+    [arrayLetter addObject: @"S"];
+    [arrayLetter addObject: @"T"];
+    [arrayLetter addObject: @"U"];
+    [arrayLetter addObject: @"V"];
+    [arrayLetter addObject: @"W"];
+    [arrayLetter addObject: @"X"];
+    [arrayLetter addObject: @"Y"];
+    [arrayLetter addObject: @"Z"];
+    [arrayLetter addObject: @"Photo Credits"];
     
     arrayImages = [[NSMutableArray alloc] init];
     

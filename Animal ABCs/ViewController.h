@@ -13,16 +13,14 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface ViewController : UIViewController
-{
+/*{
 
     
 @private
     UICollectionView *_collectionView;
     NSMutableArray *_results; // data source array
 }
-
-- (IBAction)handlePinch:(UIPinchGestureRecognizer *)recognizer;
-- (UIColor*)colorWithHexString:(NSString*)hex;
+*/
 
 @property (nonatomic) int arrayIndex;
 @property IBOutlet UIView *_portraitView;

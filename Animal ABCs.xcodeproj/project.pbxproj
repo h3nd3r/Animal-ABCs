@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A95CD781CED04C100F3FE45 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A95CD771CED04C100F3FE45 /* Utils.m */; };
 		1A98D6261CDC064F00758FB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A98D6251CDC064F00758FB1 /* AppDelegate.m */; };
 		1A98D6281CDC0CFE00758FB1 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A98D6271CDC0CFE00758FB1 /* CollectionViewController.m */; };
 		5304C3F319D8428F00BB570D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5304C3F219D8428F00BB570D /* main.m */; };
@@ -83,6 +84,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A95CD761CED04AD00F3FE45 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		1A95CD771CED04C100F3FE45 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		1A98D6241CDC063F00758FB1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1A98D6251CDC064F00758FB1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1A98D6271CDC0CFE00758FB1 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionViewController.m; path = ../CollectionViewController.m; sourceTree = "<group>"; };
@@ -201,6 +204,8 @@
 				1A98D6241CDC063F00758FB1 /* AppDelegate.h */,
 				1A98D6251CDC064F00758FB1 /* AppDelegate.m */,
 				1A98D6271CDC0CFE00758FB1 /* CollectionViewController.m */,
+				1A95CD761CED04AD00F3FE45 /* Utils.h */,
+				1A95CD771CED04C100F3FE45 /* Utils.m */,
 				1A98D6291CDC0D2900758FB1 /* CollectionViewController.h */,
 				5304C40019D8428F00BB570D /* Images.xcassets */,
 				5304C3FD19D8428F00BB570D /* Main.storyboard */,
@@ -464,6 +469,7 @@
 				1A98D6261CDC064F00758FB1 /* AppDelegate.m in Sources */,
 				5304C3F919D8428F00BB570D /* Animal_ABCs.xcdatamodeld in Sources */,
 				5304C3FC19D8428F00BB570D /* ViewController.m in Sources */,
+				1A95CD781CED04C100F3FE45 /* Utils.m in Sources */,
 				1A98D6281CDC0CFE00758FB1 /* CollectionViewController.m in Sources */,
 				5304C3F319D8428F00BB570D /* main.m in Sources */,
 			);

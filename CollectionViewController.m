@@ -6,6 +6,7 @@
 //
 //
 #import "ViewController.h"
+#import "Utils.h"
 #import "CollectionViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
@@ -21,6 +22,7 @@
 
 NSMutableArray *arrayNames;
 NSMutableArray *arrayLetters;
+NSMutableArray *arrayLetter;
 NSMutableArray *arrayImages;
 NSMutableArray *arrayCredits;
 NSMutableArray *arrayAudio;
@@ -38,20 +40,45 @@ NSMutableArray *_audioPlayers;
     if (self = [super init]) {
         NSLog(@"1");
     }
-    return self;
-}
-
-
-
--(void)turkey{
-    NSLog(@"%s", __FUNCTION__);
     
     UIView *view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].applicationFrame];
     self.view = view;
     self.view.backgroundColor = [UIColor whiteColor];
     
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.itemSize = CGSizeMake(200, 200);
+    flowLayout.itemSize = CGSizeMake(400, 400);
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    
+    
+    self.results = [NSMutableArray array];
+    
+    for(int i=0; i<26; i++){
+        NSString *fullpath = @"";/*[[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[i]]];
+                                  UIImage *image = [UIImage imageWithContentsOfFile:fullpath];*/
+        [self.results addObject:fullpath/*image*/];
+    }
+    [self.view addSubview:self.collectionView];
+    //[self.collectionView reloadData];
+    
+    return self;
+}
+
+
+/*
+-(void)turkey{
+    NSLog(@"%s", __FUNCTION__);
+ 
+    UIView *view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].applicationFrame];
+    self.view = view;
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc]init];
+    flowLayout.itemSize = CGSizeMake(400, 400);
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
@@ -63,13 +90,14 @@ NSMutableArray *_audioPlayers;
     self.results = [NSMutableArray array];
     
     for(int i=0; i<26; i++){
-        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[i]]];
-        UIImage *image = [UIImage imageWithContentsOfFile:fullpath];
-        [self.results addObject:image];
+        NSString *fullpath = @"";/ *[[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[i]]];
+        UIImage *image = [UIImage imageWithContentsOfFile:fullpath];* /
+        [self.results addObject:fullpath/ *image* /];
     }
     [self.view addSubview:self.collectionView];
     //[self.collectionView reloadData];
 }
+*/
 
 - (void)viewDidLoad {
     NSLog(@"%s", __FUNCTION__);
@@ -94,30 +122,34 @@ NSMutableArray *_audioPlayers;
 {
     NSLog(@"%s", __FUNCTION__);
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    cell.backgroundColor = [self colorWithHexString:arrayColors[indexPath.item]];
+    cell.backgroundColor = [Utils colorWithHexString:arrayColors[indexPath.item]];
     cell.contentMode = UIViewContentModeScaleAspectFit;
     cell.clipsToBounds = true;
 
     NSLog(@"%@", indexPath);
     NSLog(@"%ld", (long)indexPath.item);
     
+    //self.results[indexPath.item];
+    
+    
     NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", arrayImages[indexPath.item] ]];
     UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:loadImage];
+    
     //set contentMode to scale aspect to fit
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     //change width of frame
     CGRect frame = imageView.frame;
-    frame.size.width = 200;
-    frame.size.height = 200;
+    frame.size.width = 400;
+    frame.size.height = 400;
     imageView.frame = frame;
     
     UILabel *label = [UILabel new];
-    label.text = arrayLetters[indexPath.item];
+    label.text = arrayLetter[indexPath.item];
     
     UIColor* grey70 = [UIColor colorWithWhite: 1.0 alpha:0.45];
     CGSize textSize = [label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Courier" size:150]}];
-    label.frame = CGRectMake(0, 0, 150, 150);
+    label.frame = CGRectMake(0, 0, 400, 400);
     label.backgroundColor = grey70;
     label.textColor = [UIColor blackColor];
     label.highlightedTextColor = [UIColor blackColor];
@@ -170,42 +202,5 @@ NSMutableArray *_audioPlayers;
     //AudioServicesDisposeSystemSoundID(audioEffect);
     
 }
-
--(UIColor*)colorWithHexString:(NSString*)hex {
-    NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
-    
-    // String should be 6 or 8 characters
-    if ([cString length] < 6) return [UIColor grayColor];
-    
-    // strip 0X if it appears
-    if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
-    
-    if ([cString length] != 6) return  [UIColor grayColor];
-    
-    // Separate into r, g, b substrings
-    NSRange range = NSMakeRange(0, [cString length]);
-    
-    range.location = 0;
-    range.length = 2;
-    NSString *rString = [cString substringWithRange:range];
-    
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
-    
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
-    
-    // Scan values
-    unsigned int r, g, b;
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    
-    return [UIColor colorWithRed:((float) r / 255.0f)
-                           green:((float) g / 255.0f)
-                            blue:((float) b / 255.0f)
-                           alpha:1.0f];
-}
-
 
 @end
