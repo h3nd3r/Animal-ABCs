@@ -58,15 +58,16 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     NSLog(@"%s", __FUNCTION__);
     
     [super viewDidLoad];
     
-    // screen dimensions
+    // screen dimensions, change depend on orientation
     _width = [UIScreen mainScreen].bounds.size.width;
     _height = [UIScreen mainScreen].bounds.size.height;
-    NSLog(@"width: %f", _width);
+    NSLog(@"screen: %f", _width);
     NSLog(@"height: %f", _height);
     
     [self createSubviews];
@@ -74,6 +75,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     UIGestureRecognizer *gestureRecognizer;
     UISwipeGestureRecognizer *swipeRecognizer;
     UIPinchGestureRecognizer *pinchRecognizer;
+    UITapGestureRecognizer *tapRecognizer;
     
     gestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [[self view] addGestureRecognizer:gestureRecognizer];
@@ -88,40 +90,58 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [[self view] addGestureRecognizer:pinchRecognizer];
+
+    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    [[self view] addGestureRecognizer:tapRecognizer];
+    
     
     // play sound
     [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] play];
 }
 
-- (IBAction)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer {
+- (IBAction)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
+{
     NSLog(@"%s", __FUNCTION__);
+
+    [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
+    [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
     
-    if(UIGestureRecognizerStateEnded == recognizer.state){
-        NSLog(@"Pinch ended 1: %s", __FUNCTION__);
-        
-        CollectionViewController *collectionViewController = [[CollectionViewController alloc] init];
-        
-        NSLog(@"Pinch ended 2: %s", __FUNCTION__);
-        
+    if(UIGestureRecognizerStateEnded == recognizer.state)
+    {
+        CollectionViewController *collectionViewController =
+                                        [[CollectionViewController alloc] init];
         collectionViewController.modalPresentationStyle = UIModalPresentationFullScreen;
-        
-        
-        NSLog(@"Pinch ended 3: %s", __FUNCTION__);
-        //collectionViewController.transitionStyle = UIModalTransitionStyleCoverVertical;
-        //[collectionViewController turkey];
-        
-        NSLog(@"Pinch ended 4: %s", __FUNCTION__);
-       
+
         [self presentViewController:collectionViewController animated:YES completion: nil];
-        
-        NSLog(@"Pinch ended 5: %s", __FUNCTION__);
     }
 }
 
--(void)handleSwipeFromRight:(UISwipeGestureRecognizer *)recognizer {
+- (void)handleTapGesture:(UITapGestureRecognizer *)recognizer
+{
     NSLog(@"%s", __FUNCTION__);
     
-    if (_arrayIndex !=26) {
+    if(UIGestureRecognizerStateEnded == recognizer.state)
+    {
+        AVAudioPlayer *temp = _utils.audioPlayers[_arrayIndex];
+        
+        if(temp.currentTime == 0)
+        {
+            [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] play];
+        }
+        else
+        {
+            [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
+            [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
+        }
+    }
+}
+
+-(void)handleSwipeFromRight:(UISwipeGestureRecognizer *)recognizer
+{
+    NSLog(@"%s", __FUNCTION__);
+    
+    if (_arrayIndex !=26)
+    {
         // stop playing any sounds & rewind
         [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
         [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
@@ -144,8 +164,14 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         CGFloat height = [UIScreen mainScreen].bounds.size.height;
+
         
-        CGSize textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
+        CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_big_text_reducer]}];
+        _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
+        
+        
+        
+        textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
         
         NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[_arrayIndex]]];
@@ -153,7 +179,6 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         
         UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
         _image.image = loadImage;
-        
         
         [self.view setBackgroundColor:[Utils colorWithHexString:_utils.arrayColors[_arrayIndex]]];
 
@@ -163,7 +188,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     }
 }
 
--(void)handleSwipeFromLeft:(UISwipeGestureRecognizer *)recognizer {
+-(void)handleSwipeFromLeft:(UISwipeGestureRecognizer *)recognizer
+{
     NSLog(@"%s", __FUNCTION__);
     
     if (_arrayIndex !=26) {
@@ -190,7 +216,10 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         CGFloat height = [UIScreen mainScreen].bounds.size.height;
 
-        CGSize textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
+        CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_big_text_reducer]}];
+        _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
+        
+        textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
         
         NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[_arrayIndex]]];
@@ -207,7 +236,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     }
 }
 
-- (BOOL)shouldAutorotate {
+- (BOOL)shouldAutorotate
+{
     NSLog(@"%s", __FUNCTION__);
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -218,7 +248,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _image.frame = CGRectMake(0, 0, width, height);
     
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_big_text_reducer]}];
-    _label.frame = CGRectMake(20, 20, textSize.width, textSize.height);
+    _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
     
     textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
     _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
@@ -249,40 +279,43 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     return YES;
 }
 
--(void)setUpViewForOrientation:(UIInterfaceOrientation)orientation {
+-(void)setUpViewForOrientation:(UIInterfaceOrientation)orientation
+{
     NSLog(@"%s", __FUNCTION__);
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
     NSLog(@"%s", __FUNCTION__);
     
     [self setUpViewForOrientation:toInterfaceOrientation];
     [self shouldAutorotate];
 }
 
--(void)clearCredits {
+-(void)clearCredits
+{
     _label.hidden = false;
     _label1.hidden = true;
     _label2.hidden = false;
     _label3.hidden = true;
     _label4.hidden = true;
-    
     _image.hidden = false;
 }
 
--(void)setCredits {
+-(void)setCredits
+{
     _label.hidden = true;
     _label1.hidden = false;
     _label2.hidden = true;
     _label3.hidden = false;
     _label4.hidden = false;
-    
     _image.hidden = true;
     
     [self.view setBackgroundColor:[Utils colorWithHexString:_utils.arrayColors[_arrayIndex]]];
 }
 
--(void)createSubviews {
+-(void)createSubviews
+{
     NSLog(@"%s", __FUNCTION__);    
     arrayCount = (int)[_utils.arrayNames count];
     
@@ -297,6 +330,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label.text = _utils.arrayLetters[_arrayIndex];
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_big_text_reducer]}];
     _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
+    
     _label.backgroundColor = grey70;
     _label.textColor = [UIColor blackColor];
     _label.highlightedTextColor = [UIColor blackColor];
@@ -464,7 +498,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         _label4_textSize = [_label4.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:landscape_height/multiplier]}];
     }
     
-    NSLog(@"width: %f, height: %f", _label4_textSize.width, _label4_textSize.height);
+    NSLog(@"%@", NSStringFromCGSize(_label4_textSize));
     
     landscape_text_size_4 = landscape_height/multiplier;
     lx1_4 = 0;
@@ -478,7 +512,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     [self shouldAutorotate];
 }
                         
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
