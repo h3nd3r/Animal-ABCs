@@ -17,6 +17,10 @@
 @synthesize collectionView = _collectionView;
 @synthesize results = _results;
 Utils *_utils;
+CGFloat _width;
+CGFloat _height;
+CGSize portraitCellSize;
+CGSize landscapeCellSize;
 
 - (id)init
 {
@@ -25,20 +29,43 @@ Utils *_utils;
     if (self = [super init]) {
         NSLog(@"1");
     }
+
+    _width = [UIScreen mainScreen].bounds.size.width;
+    _height = [UIScreen mainScreen].bounds.size.height;
     
+    portraitCellSize = CGSizeMake( (_width - _width/10)/3 , (_height - _height/10)/3);
+    landscapeCellSize = CGSizeMake(portraitCellSize.height, portraitCellSize.width);
+    CGFloat temp = (_width - portraitCellSize.width*3)/6;
+    
+    NSLog(@"my WIDTH: %f", temp);
     UIView *view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].applicationFrame];
-    self.view = view;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];//view;
+    self.view.backgroundColor = [UIColor blackColor];
+/*
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    _collectionView=[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
+    [_collectionView setDataSource:self];
+    [_collectionView setDelegate:self];
+  */  
+    
     
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.itemSize = CGSizeMake(450, 400);
+    flowLayout.itemSize = portraitCellSize;
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    [flowLayout setSectionInset:UIEdgeInsetsMake(temp, temp, temp, temp)];
+    
+    //flowLayout.sectionInset = UIEdgeInsetsMake(topMargin, left, bottom, right);
+    //flowLayout.minimumInteritemSpacing = temp;
+    flowLayout.minimumLineSpacing = temp*2;
+    
+    
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[SpecialCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-    
+    //self.collectionView.
+    self.collectionView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin);
     
     self.results = [NSMutableArray array];
     
@@ -49,6 +76,17 @@ Utils *_utils;
     [self.view addSubview:self.collectionView];
     
     return self;
+}
+
+- (enum UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    NSLog(@"%s", __FUNCTION__);
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate {
+    NSLog(@"%s", __FUNCTION__);
+    return YES;
 }
 
 - (void)viewDidLoad {
@@ -93,7 +131,6 @@ Utils *_utils;
     return cell;
 }
 
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
@@ -110,19 +147,24 @@ Utils *_utils;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-/*
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
     NSLog(@"%s", __FUNCTION__);
-    UIImage *image = [self.results objectAtIndex:indexPath.row];
-    return CGSizeMake(150, 150);
-}
-*/
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    NSLog(@"%s", __FUNCTION__);
-    return UIEdgeInsetsMake(50, 20, 50, 20);
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self updateCollectionViewLayoutWithSize:size];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)updateCollectionViewLayoutWithSize:(CGSize)size
+{
+    NSLog(@"%s", __FUNCTION__);
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    layout.itemSize = (size.width < size.height) ? landscapeCellSize : portraitCellSize;
+    [layout invalidateLayout];
+    //[self.collectionView reloadData];
+}
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
