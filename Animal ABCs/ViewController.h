@@ -13,23 +13,8 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface ViewController : UIViewController
-/*{
-
-    
-@private
-    UICollectionView *_collectionView;
-    NSMutableArray *_results; // data source array
-}
-*/
 
 @property (nonatomic) int arrayIndex;
-@property IBOutlet UIView *_portraitView;
-@property IBOutlet UIView *_landscapeView;
-@property IBOutlet UIView *_defaultView;
-@property UIView *_currentView;
-@property UILabel *_label;
-    
--(void)createSubviews;
 
 @end
 

@@ -10,6 +10,7 @@
 		1A95CD781CED04C100F3FE45 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A95CD771CED04C100F3FE45 /* Utils.m */; };
 		1A98D6261CDC064F00758FB1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A98D6251CDC064F00758FB1 /* AppDelegate.m */; };
 		1A98D6281CDC0CFE00758FB1 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A98D6271CDC0CFE00758FB1 /* CollectionViewController.m */; };
+		1AD6950D1CF5DB29001DF271 /* SpecialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6950C1CF5DB29001DF271 /* SpecialCollectionViewCell.m */; };
 		5304C3F319D8428F00BB570D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5304C3F219D8428F00BB570D /* main.m */; };
 		5304C3F919D8428F00BB570D /* Animal_ABCs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5304C3F719D8428F00BB570D /* Animal_ABCs.xcdatamodeld */; };
 		5304C3FC19D8428F00BB570D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5304C3FB19D8428F00BB570D /* ViewController.m */; };
@@ -90,6 +91,8 @@
 		1A98D6251CDC064F00758FB1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1A98D6271CDC0CFE00758FB1 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionViewController.m; path = ../CollectionViewController.m; sourceTree = "<group>"; };
 		1A98D6291CDC0D2900758FB1 /* CollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CollectionViewController.h; path = ../CollectionViewController.h; sourceTree = "<group>"; };
+		1AD6950C1CF5DB29001DF271 /* SpecialCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialCollectionViewCell.m; sourceTree = "<group>"; };
+		1AD6950E1CF5DB50001DF271 /* SpecialCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpecialCollectionViewCell.h; sourceTree = "<group>"; };
 		5304C3ED19D8428F00BB570D /* Animal ABCs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Animal ABCs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5304C3F119D8428F00BB570D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5304C3F219D8428F00BB570D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -176,6 +179,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A88A4C61D07653700A7580A /* portrait */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = portrait;
+			sourceTree = "<group>";
+		};
+		1A88A4C71D07654400A7580A /* landscape */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = landscape;
+			sourceTree = "<group>";
+		};
 		5304C3E419D8428F00BB570D = {
 			isa = PBXGroup;
 			children = (
@@ -203,10 +220,12 @@
 				5304C3FB19D8428F00BB570D /* ViewController.m */,
 				1A98D6241CDC063F00758FB1 /* AppDelegate.h */,
 				1A98D6251CDC064F00758FB1 /* AppDelegate.m */,
+				1AD6950E1CF5DB50001DF271 /* SpecialCollectionViewCell.h */,
+				1AD6950C1CF5DB29001DF271 /* SpecialCollectionViewCell.m */,
+				1A98D6291CDC0D2900758FB1 /* CollectionViewController.h */,
 				1A98D6271CDC0CFE00758FB1 /* CollectionViewController.m */,
 				1A95CD761CED04AD00F3FE45 /* Utils.h */,
 				1A95CD771CED04C100F3FE45 /* Utils.m */,
-				1A98D6291CDC0D2900758FB1 /* CollectionViewController.h */,
 				5304C40019D8428F00BB570D /* Images.xcassets */,
 				5304C3FD19D8428F00BB570D /* Main.storyboard */,
 				5304C40219D8428F00BB570D /* LaunchScreen.xib */,
@@ -245,6 +264,8 @@
 		53F93C9B19F7DB7C00A16FE4 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1A88A4C71D07654400A7580A /* landscape */,
+				1A88A4C61D07653700A7580A /* portrait */,
 				9E9C3C1A1BC2DEC8002A7E37 /* elephant2.jpg */,
 				53F93C9C19F7DB7C00A16FE4 /* alligator.jpg */,
 				53F93C9D19F7DB7C00A16FE4 /* bear.jpg */,
@@ -472,6 +493,7 @@
 				1A95CD781CED04C100F3FE45 /* Utils.m in Sources */,
 				1A98D6281CDC0CFE00758FB1 /* CollectionViewController.m in Sources */,
 				5304C3F319D8428F00BB570D /* main.m in Sources */,
+				1AD6950D1CF5DB29001DF271 /* SpecialCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

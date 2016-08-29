@@ -12,23 +12,12 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "ViewController.h"
+#import "SpecialCollectionViewCell.h"
 
 @interface CollectionViewController : UICollectionViewController
-{
-@private
-    UICollectionView *_collectionView;
-    NSMutableArray *_results; // data source array
-    
-    
-}
-/*
-@property IBOutlet UIView *_portraitView;
-@property IBOutlet UIView *_landscapeView;
-@property IBOutlet UIView *_defaultView;
-@property UIView *_currentView;
-@property UILabel *_label;
-*/
--(void)turkey;
+
+@property (nonatomic, retain) UICollectionView *collectionView;
+@property (nonatomic, retain) NSMutableArray *results;
 
 @end
 

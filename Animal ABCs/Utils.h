@@ -13,7 +13,17 @@
 
 @interface Utils : NSObject
 
-    + (UIColor *)colorWithHexString:(NSString *)hex;
++ (UIColor *)colorWithHexString:(NSString *)hex;
+//- (NSMutableArray *)audioPlayers;
+
+@property (getter=arrayNames) NSMutableArray *arrayNames;
+@property (getter=arrayLetters) NSMutableArray *arrayLetters;
+@property (getter=arrayLetter) NSMutableArray *arrayLetter;
+@property (getter=arrayImages) NSMutableArray *arrayImages;
+@property (getter=arrayCredits) NSMutableArray *arrayCredits;
+@property (getter=arrayAudio) NSMutableArray *arrayAudio;
+@property (getter=arrayColors) NSMutableArray *arrayColors;
+@property (getter=audioPlayers) NSMutableArray *audioPlayers;
 
 @end
 #endif /* Utils_h */
