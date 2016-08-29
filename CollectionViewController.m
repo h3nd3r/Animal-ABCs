@@ -38,33 +38,19 @@ CGSize landscapeCellSize;
     CGFloat temp = (_width - portraitCellSize.width*3)/6;
     
     NSLog(@"my WIDTH: %f", temp);
-    UIView *view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].applicationFrame];
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];//view;
     self.view.backgroundColor = [UIColor blackColor];
-/*
-    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
-    _collectionView=[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
-    [_collectionView setDataSource:self];
-    [_collectionView setDelegate:self];
-  */  
-    
     
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc]init];
     flowLayout.itemSize = portraitCellSize;
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     [flowLayout setSectionInset:UIEdgeInsetsMake(temp, temp, temp, temp)];
-    
-    //flowLayout.sectionInset = UIEdgeInsetsMake(topMargin, left, bottom, right);
-    //flowLayout.minimumInteritemSpacing = temp;
     flowLayout.minimumLineSpacing = temp*2;
-    
-    
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[SpecialCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-    //self.collectionView.
     self.collectionView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin);
     
     self.results = [NSMutableArray array];
@@ -112,6 +98,12 @@ CGSize landscapeCellSize;
 {
     NSLog(@"%s", __FUNCTION__);
     SpecialCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+
+    _width = [UIScreen mainScreen].bounds.size.width;
+    _height = [UIScreen mainScreen].bounds.size.height;
+    
+    CGSize cellSize = CGSizeMake( (_width - _width/10)/3 , (_height - _height/10)/3);
+    
     
     cell.backgroundColor = [Utils colorWithHexString:_utils.arrayColors[indexPath.item]];
     cell.contentMode = UIViewContentModeScaleAspectFit;
@@ -125,8 +117,13 @@ CGSize landscapeCellSize;
 
     NSLog(@"%@", fullpath);
 
-    cell.imageView.image = loadImage;
+    //cell.imageView.image.size
+
+    cell.imageView.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
+    cell.imageView.image = loadImage;   
+    
     cell.label.text = _utils.arrayLetter[indexPath.item];
+    cell.label.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
     
     return cell;
 }
@@ -142,7 +139,7 @@ CGSize landscapeCellSize;
     
     //[self.navigationController pushViewController:self.view animated:YES];
     ViewController *vc = [[ViewController alloc] init];
-    vc.arrayIndex = indexPath.item;
+    vc.arrayIndex = (int)indexPath.item;
     
     [self presentViewController:vc animated:YES completion:nil];
 }
@@ -159,8 +156,12 @@ CGSize landscapeCellSize;
     NSLog(@"%s", __FUNCTION__);
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     layout.itemSize = (size.width < size.height) ? landscapeCellSize : portraitCellSize;
-    [layout invalidateLayout];
+    
+    // this call causes dodgey errors
     //[self.collectionView reloadData];
+    
+    // so does this
+    [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
 }
 
 - (void)didReceiveMemoryWarning
