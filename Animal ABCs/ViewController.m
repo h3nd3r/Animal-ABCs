@@ -102,8 +102,11 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
 {
     NSLog(@"%s", __FUNCTION__);
 
-    [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
-    [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
+    if(_arrayIndex < 26)
+    {
+        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
+        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
+    }
     
     if(UIGestureRecognizerStateEnded == recognizer.state)
     {

@@ -155,13 +155,13 @@ CGSize landscapeCellSize;
 {
     NSLog(@"%s", __FUNCTION__);
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    //layout.itemSize = (size.width < size.height) ? landscapeCellSize : portraitCellSize;
+    layout.itemSize = (size.width < size.height) ? landscapeCellSize : portraitCellSize;
     
     // this call causes dodgey errors
     //[self.collectionView reloadData];
     
     // so does this
-    //[self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
+    [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
 }
 
 - (void)didReceiveMemoryWarning
