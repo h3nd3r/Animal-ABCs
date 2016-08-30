@@ -30,7 +30,7 @@ CGFloat _height;
 int arrayCount;
 int collectionIndex = 0;
 
-int _label_big_text_reducer = 5;
+int _label_big_text_reducer = 7;
 int _label_medium_text_reducer = 10;
 int _label_small_text_reducer = 15;
 
@@ -93,7 +93,6 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
 
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [[self view] addGestureRecognizer:tapRecognizer];
-    
     
     // play sound
     [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] play];
@@ -324,7 +323,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _image.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:_image];
     
-    UIColor* grey70 = [UIColor colorWithWhite: 1.0 alpha:0.45];
+    UIColor* grey70 = [UIColor colorWithWhite: 1.0 alpha:0.75];
     
     _label = [UILabel new];
     _label.text = _utils.arrayLetters[_arrayIndex];

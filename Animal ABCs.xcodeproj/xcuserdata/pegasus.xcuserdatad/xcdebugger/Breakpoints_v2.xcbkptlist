@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Animal ABCs/ViewController.m"
-            timestampString = "494205222.091836"
+            timestampString = "494273476.880823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "-createSubviews"
             landmarkType = "5">
          </BreakpointContent>
