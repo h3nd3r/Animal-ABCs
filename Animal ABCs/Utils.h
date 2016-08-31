@@ -13,7 +13,11 @@
 
 @interface Utils : NSObject
 
++ (CGSize)cellSize;
++ (uint)findFontSize:(CGRect)box withText:(NSString *)text;
++ (UIColor *)grey;
 + (UIColor *)colorWithHexString:(NSString *)hex;
+
 //- (NSMutableArray *)audioPlayers;
 
 @property (getter=arrayNames) NSMutableArray *arrayNames;

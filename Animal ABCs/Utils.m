@@ -168,7 +168,7 @@ NSMutableArray *audioPlayers;
     [_arrayImages addObject: @"yak.jpg"];
     [_arrayImages addObject: @"zebra.jpg"];
     [_arrayImages addObject: @""];
-    
+/*
     _arrayCredits = [[NSMutableArray alloc] init];
     [_arrayCredits addObject: @""];
     [_arrayCredits addObject: @"alligator - jc.winkler/Flickr"];
@@ -197,7 +197,36 @@ NSMutableArray *audioPlayers;
     [_arrayCredits addObject: @"xenops - Dario Sanches/Flickr"];
     [_arrayCredits addObject: @"yak - Ludovic Hirlimann/Flickr"];
     [_arrayCredits addObject: @"zebra - Tambako The Jaguar/Flickr"];
-
+*/
+    _arrayCredits = [[NSMutableArray alloc] init];
+    [_arrayCredits addObject: @""];
+    [_arrayCredits addObject: @"alligator - jc.winkler/Flickr"];
+    [_arrayCredits addObject: @"bear - NPS/K. Jalone./Flickr"];
+    [_arrayCredits addObject: @"cat - jacinta lluch valero/Flickr"];
+    [_arrayCredits addObject: @"'Are you coming?' - timku/Flickr"];
+    [_arrayCredits addObject: @"'Elephants' - John Schinker/Flickr"];
+    [_arrayCredits addObject: @"flamingo - William Warby/Flickr"];
+    [_arrayCredits addObject: @"giraffe - Daniel Ramirez/Flickr"];
+    [_arrayCredits addObject: @"horse - Peter aka anemoneprojectors/Flickr"];
+    [_arrayCredits addObject: @"'St Thomas' - Kevin Falcone/Flickr"];
+    [_arrayCredits addObject: @"jaguar - Eric Kilby/Flickr"];
+    [_arrayCredits addObject: @"'Yanchep Kangaroos' - Mark, Vicki, Ellaura and Mason/Flickr"];
+    [_arrayCredits addObject: @"llama - Val D'Aquila/Flickr"];
+    [_arrayCredits addObject: @"monkey - Robyn Jay/Flickr"];
+    [_arrayCredits addObject: @"'Numbat' - Charles Kottler/Flickr"];
+    [_arrayCredits addObject: @"'Who you looking at?' - Lyndie/Flickr"];
+    [_arrayCredits addObject: @"pig - Pete Birkinshaw/Flickr"];
+    [_arrayCredits addObject: @"'California Quail' - Lee Jaffe/Flickr"];
+    [_arrayCredits addObject: @"rabbit - Mark Kent/Flickr"];
+    [_arrayCredits addObject: @"'Snake' - Hans Watson/Flickr"];
+    [_arrayCredits addObject: @"tiger - Moni Sertel/Flickr"];
+    [_arrayCredits addObject: @"'Ovis vignei' - abejorro34/Flickr"];
+    [_arrayCredits addObject: @"vulture - Daniel Daley/Flickr"];
+    [_arrayCredits addObject: @"anim0054 - NOAA Photo Library/Flickr"];
+    [_arrayCredits addObject: @"'Streaked Xenops' - Carlos Henrique/Flickr"];
+    [_arrayCredits addObject: @"yak - Ludovic Hirlimann/Flickr"];
+    [_arrayCredits addObject: @"zebra - Tambako The Jaguar/Flickr"];
+    
     _arrayCreditsLandscape = [[NSMutableArray alloc] init];
     [_arrayCreditsLandscape addObject: @""];
     [_arrayCreditsLandscape addObject: @"alligator - jc.winkler/Flickr"];
@@ -385,6 +414,43 @@ NSMutableArray *audioPlayers;
                            green:((float) g / 255.0f)
                             blue:((float) b / 255.0f)
                            alpha:1.0f];
+}
+
++ (uint)findFontSize:(CGRect)box withText:(NSString *)text
+{
+/*    CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:[Utils findFontSize:_label.frame]]}];
+  */  
+    
+    return 120;
+}
+
++ (UIColor *)grey
+{
+    /*    CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:[Utils findFontSize:_label.frame]]}];
+     */
+    
+    return [UIColor colorWithWhite: 1.0 alpha:0.75];
+}
+
++ (CGSize)cellSize
+{
+    CGFloat _width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat _height = [UIScreen mainScreen].bounds.size.height;
+    
+    if(_width > _height) // landscape
+    {
+        NSLog(@"width: %f, height: %f", _width, _height);
+        CGSize size = CGSizeMake( (_width - _width/10)/3 , (_height - _height/10)/3);
+        NSLog(@"%s: landscape, %@", __FUNCTION__, NSStringFromCGSize(size));
+        return size;
+    }
+    else // portrait
+    {
+        NSLog(@"width: %f, height: %f", _width, _height);
+        CGSize size = CGSizeMake( (_width - _width/10)/3 , (_height - _height/10)/3);
+        NSLog(@"%s: portrait, %@", __FUNCTION__, NSStringFromCGSize(size));
+        return size;
+    }
 }
 
 @end

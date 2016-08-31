@@ -28,26 +28,29 @@ NSMutableArray *arrayImages;
     self = [super initWithFrame:frame];
     if(self)
     {
-        if(!_imageView)
+        /*if(!_imageView)
         {
             _imageView =[[UIImageView alloc] initWithFrame:CGRectMake(0,0, cellSize.width, cellSize.height)];
             _imageView.image=[UIImage imageNamed:_utils.arrayImages[2]];
             _imageView.contentMode = UIViewContentModeScaleAspectFit;
             [self.contentView addSubview:_imageView];
-        }
+        }*/
         if(!_label)
         {
             NSLog(@"%s: creating label", __FUNCTION__);
             _label = [UILabel new];
             _label.tag = 101;
             _label.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
-            _label.backgroundColor = [UIColor colorWithWhite: 1.0 alpha:0.45];
+            _label.backgroundColor = [Utils grey];
             _label.textColor = [UIColor blackColor];
             _label.highlightedTextColor = [UIColor blackColor];
-            _label.font = [UIFont fontWithName:@"Arial" size:150];
+            _label.text = @"W";
+            
+            _label.font = [UIFont fontWithName:@"Arial" size:[Utils findFontSize:_label.frame withText:_label.text]];
+            
             _label.textAlignment = NSTextAlignmentCenter;
             _label.adjustsFontSizeToFitWidth = YES;
-            _label.text = @"Hello Worlds!";
+
             [self.contentView addSubview:_label];
         }
     }

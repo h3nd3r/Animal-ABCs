@@ -174,7 +174,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         
         
         textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
-        _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
+        _label2.frame = CGRectMake(width - 40 - textSize.width, height - 20 - textSize.height, textSize.width + 20, textSize.height);
         
         NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[_arrayIndex]]];
         NSLog(@"Right swipe received, path %@", fullpath);
@@ -222,7 +222,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
         
         textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
-        _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
+        _label2.frame = CGRectMake(width - 40 - textSize.width, height - 20 - textSize.height, textSize.width + 20, textSize.height);
         
         NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[_arrayIndex]]];
         NSLog(@"Left swipe received, path %@", fullpath);
@@ -253,7 +253,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
     
     textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
-    _label2.frame = CGRectMake(width - 20 - textSize.width, height - 20 - textSize.height, textSize.width, textSize.height);
+    
+    _label2.frame = CGRectMake(width - 40 - textSize.width, height - 20 - textSize.height, textSize.width + 20, textSize.height);
     
     _label1.frame = CGRectMake(0, 20, width, _label1_textSize.height);
     
@@ -326,14 +327,12 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _image.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:_image];
     
-    UIColor* grey70 = [UIColor colorWithWhite: 1.0 alpha:0.75];
-    
     _label = [UILabel new];
     _label.text = _utils.arrayLetters[_arrayIndex];
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_big_text_reducer]}];
     _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
     
-    _label.backgroundColor = grey70;
+    _label.backgroundColor = [Utils grey];
     _label.textColor = [UIColor blackColor];
     _label.highlightedTextColor = [UIColor blackColor];
     _label.font = [UIFont fontWithName:@"Arial" size:_height/_label_big_text_reducer];
@@ -343,12 +342,12 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label2 = [UILabel new];
     _label2.text = _utils.arrayNames[_arrayIndex];
     textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
-    _label2.frame = CGRectMake(_width - 20 - textSize.width, _height - 20 - textSize.height, textSize.width, textSize.height);
-    _label2.backgroundColor = grey70;
+    _label2.frame = CGRectMake(_width - 40 - textSize.width, _height - 20 - textSize.height, textSize.width + 20, textSize.height);
+    _label2.backgroundColor = [Utils grey];
     _label2.textColor = [UIColor blackColor];
     _label2.highlightedTextColor = [UIColor blackColor];
     _label2.font = [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer];
-    _label2.textAlignment = NSTextAlignmentRight;
+    _label2.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_label2];
     
     [self.view setBackgroundColor:[Utils colorWithHexString:_utils.arrayColors[_arrayIndex]]];
@@ -368,7 +367,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     [self.view addSubview:_label1];
     
     _label3 = [UILabel new];
-    _label3.text = @"all images as original\nlicensed under Creative Commons\nhttps://creativecommons.org/licenses/by/2.0/";
+    _label3.text = @"licensed under Creative Commons\nhttps://creativecommons.org/licenses/by/2.0/";
     _label3.numberOfLines = 0;
     _label3.backgroundColor = [UIColor clearColor];
     _label3.textColor = [UIColor blackColor];

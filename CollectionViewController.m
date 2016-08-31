@@ -19,8 +19,8 @@
 Utils *_utils;
 CGFloat _width;
 CGFloat _height;
-CGSize portraitCellSize;
-CGSize landscapeCellSize;
+//CGSize portraitCellSize;
+//CGSize landscapeCellSize;
 
 - (id)init
 {
@@ -32,18 +32,16 @@ CGSize landscapeCellSize;
 
     _width = [UIScreen mainScreen].bounds.size.width;
     _height = [UIScreen mainScreen].bounds.size.height;
-    
-    portraitCellSize = CGSizeMake( (_width - _width/10)/3 , (_height - _height/10)/3);
-    landscapeCellSize = CGSizeMake(portraitCellSize.height, portraitCellSize.width);
-    CGFloat temp = (_width - portraitCellSize.width*3)/6;
-    
-    NSLog(@"my WIDTH: %f", temp);
-    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];//view;
+
+    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.view.backgroundColor = [UIColor blackColor];
     
     UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.itemSize = portraitCellSize;
+    flowLayout.itemSize = [Utils cellSize];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    
+    CGFloat temp = (_width - flowLayout.itemSize.width*3)/6;
+    NSLog(@"my WIDTH: %f", temp);
     [flowLayout setSectionInset:UIEdgeInsetsMake(temp, temp, temp, temp)];
     flowLayout.minimumLineSpacing = temp*2;
     
@@ -52,9 +50,7 @@ CGSize landscapeCellSize;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin);
-    
     self.results = [NSMutableArray array];
-    
     for(int i=0; i<26; i++){
         NSString *fullpath = @"";
         [self.results addObject:fullpath];
@@ -72,12 +68,18 @@ CGSize landscapeCellSize;
 
 - (BOOL)shouldAutorotate {
     NSLog(@"%s", __FUNCTION__);
+        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    flowLayout.itemSize = [Utils cellSize];
+    CGFloat temp = (_width - flowLayout.itemSize.width*3)/6;
+    NSLog(@"my WIDTH: %f", temp);
+    [flowLayout setSectionInset:UIEdgeInsetsMake(temp, temp, temp, temp)];
+    flowLayout.minimumLineSpacing = temp*2;
+    
     return YES;
 }
 
 - (void)viewDidLoad {
     NSLog(@"%s", __FUNCTION__);
-    
     [super viewDidLoad];
 }
 
@@ -102,7 +104,7 @@ CGSize landscapeCellSize;
     _width = [UIScreen mainScreen].bounds.size.width;
     _height = [UIScreen mainScreen].bounds.size.height;
     
-    CGSize cellSize = CGSizeMake( (_width - _width/10)/3 , (_height - _height/10)/3);
+    CGSize cellSize = [Utils cellSize];
     
     
     cell.backgroundColor = [Utils colorWithHexString:_utils.arrayColors[indexPath.item]];
@@ -112,19 +114,17 @@ CGSize landscapeCellSize;
     NSLog(@"%@", indexPath);
     NSLog(@"%ld", (long)indexPath.item);
     
-    NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[indexPath.item] ]];
-    UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
+    //NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[indexPath.item] ]];
+    //UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
 
-    NSLog(@"%@", fullpath);
+    //NSLog(@"%@", fullpath);
 
-    //cell.imageView.image.size
-
-    cell.imageView.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
-    cell.imageView.image = loadImage;   
+    //cell.imageView.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
+    //cell.imageView.image = loadImage;
     
     cell.label.text = _utils.arrayLetter[indexPath.item];
     cell.label.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
-    
+    cell.label.textAlignment = NSTextAlignmentCenter;
     return cell;
 }
 
@@ -154,14 +154,14 @@ CGSize landscapeCellSize;
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size
 {
     NSLog(@"%s", __FUNCTION__);
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    layout.itemSize = (size.width < size.height) ? landscapeCellSize : portraitCellSize;
+    //UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    //layout.itemSize = CGSizeMake(100,100);//[Utils cellSize];//(size.width < size.height) ? landscapeCellSize : portraitCellSize;
     
     // this call causes dodgey errors
-    //[self.collectionView reloadData];
+    [self.collectionView reloadData];
     
     // so does this
-    [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
+    //[self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
 }
 
 - (void)didReceiveMemoryWarning
