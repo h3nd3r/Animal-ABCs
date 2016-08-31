@@ -154,8 +154,8 @@ CGFloat _height;
 - (void)updateCollectionViewLayoutWithSize:(CGSize)size
 {
     NSLog(@"%s", __FUNCTION__);
-    //UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    //layout.itemSize = CGSizeMake(100,100);//[Utils cellSize];//(size.width < size.height) ? landscapeCellSize : portraitCellSize;
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    layout.itemSize = [Utils cellSize];//(size.width < size.height) ? landscapeCellSize : portraitCellSize;
     
     // this call causes dodgey errors
     [self.collectionView reloadData];
