@@ -28,13 +28,13 @@ NSMutableArray *arrayImages;
     self = [super initWithFrame:frame];
     if(self)
     {
-        /*if(!_imageView)
+        if(!_imageView)
         {
             _imageView =[[UIImageView alloc] initWithFrame:CGRectMake(0,0, cellSize.width, cellSize.height)];
-            _imageView.image=[UIImage imageNamed:_utils.arrayImages[2]];
+            _imageView.image=[UIImage imageNamed:_utils.arraySmallImages[2]];
             _imageView.contentMode = UIViewContentModeScaleAspectFit;
             [self.contentView addSubview:_imageView];
-        }*/
+        }
         if(!_label)
         {
             NSLog(@"%s: creating label", __FUNCTION__);

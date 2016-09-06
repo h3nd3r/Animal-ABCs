@@ -114,13 +114,13 @@ CGFloat _height;
     NSLog(@"%@", indexPath);
     NSLog(@"%ld", (long)indexPath.item);
     
-    //NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[indexPath.item] ]];
-    //UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
+    NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arraySmallImages[indexPath.item] ]];
+    UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
 
-    //NSLog(@"%@", fullpath);
+    NSLog(@"%@", fullpath);
 
-    //cell.imageView.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
-    //cell.imageView.image = loadImage;
+    cell.imageView.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
+    cell.imageView.image = loadImage;
     
     cell.label.text = _utils.arrayLetter[indexPath.item];
     cell.label.frame = CGRectMake(0,0, cellSize.width, cellSize.height);

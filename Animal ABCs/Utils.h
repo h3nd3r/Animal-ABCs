@@ -20,6 +20,7 @@
 
 //- (NSMutableArray *)audioPlayers;
 
+@property (getter=arraySmallImages) NSMutableArray *arraySmallImages;
 @property (getter=arrayNames) NSMutableArray *arrayNames;
 @property (getter=arrayLetters) NSMutableArray *arrayLetters;
 @property (getter=arrayLetter) NSMutableArray *arrayLetter;
