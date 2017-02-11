@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "Utils.h"
+#import "AppDelegate.h"
 #import "CollectionViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
@@ -21,11 +22,9 @@ UILabel *_label2;
 UILabel *_label3;
 UILabel *_label4;
 UIImageView *_image;
-Utils *_utils;
+
 
 CGSize _label1_textSize;
-CGFloat _width;
-CGFloat _height;
 
 int arrayCount;
 int collectionIndex = 0;
@@ -53,7 +52,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     if (self = [super init]) {
         NSLog(@"1");
     }
-        
+
     _arrayIndex = 0;
     return self;
 }
@@ -64,11 +63,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     [super viewDidLoad];
     
-    // screen dimensions, change depend on orientation
     _width = [UIScreen mainScreen].bounds.size.width;
     _height = [UIScreen mainScreen].bounds.size.height;
-    NSLog(@"screen: %f", _width);
-    NSLog(@"height: %f", _height);
     
     [self createSubviews];
     
@@ -94,8 +90,10 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [[self view] addGestureRecognizer:tapRecognizer];
     
+    
+    
     // play sound
-    [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] play];
+    [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] play];
 }
 
 - (IBAction)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
@@ -104,8 +102,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
 
     if(_arrayIndex < 26)
     {
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] stop];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] setCurrentTime:0];
     }
     
     if(UIGestureRecognizerStateEnded == recognizer.state)
@@ -124,16 +122,16 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     if(UIGestureRecognizerStateEnded == recognizer.state)
     {
-        AVAudioPlayer *temp = _utils.audioPlayers[_arrayIndex];
+        AVAudioPlayer *temp = [Utils sharedInstance].audioPlayers[_arrayIndex];
         
         if(temp.currentTime == 0)
         {
-            [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] play];
+            [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] play];
         }
         else
         {
-            [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
-            [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
+            [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] stop];
+            [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] setCurrentTime:0];
         }
     }
 }
@@ -145,8 +143,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     if (_arrayIndex !=26)
     {
         // stop playing any sounds & rewind
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] stop];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] setCurrentTime:0];
     }
     
     _arrayIndex--;
@@ -161,8 +159,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     }
     
     if (_arrayIndex !=26) {
-        _label.text = _utils.arrayLetters[_arrayIndex];
-        _label2.text = _utils.arrayNames[_arrayIndex];
+        _label.text = [Utils sharedInstance].arrayLetters[_arrayIndex];
+        _label2.text = [Utils sharedInstance].arrayNames[_arrayIndex];
         
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         CGFloat height = [UIScreen mainScreen].bounds.size.height;
@@ -176,15 +174,15 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 40 - textSize.width, height - 20 - textSize.height, textSize.width + 20, textSize.height);
         
-        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[_arrayIndex]]];
+        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", [Utils sharedInstance].arrayImages[_arrayIndex]]];
         NSLog(@"Right swipe received, path %@", fullpath);
         
         UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
         _image.image = loadImage;
         
-        [self.view setBackgroundColor:[Utils colorWithHexString:_utils.arrayColors[_arrayIndex]]];
+        [self.view setBackgroundColor:[Utils colorWithHexString:[Utils sharedInstance].arrayColors[_arrayIndex]]];
 
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] play];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] play];
     } else {
         [self setCredits];
     }
@@ -196,8 +194,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     
     if (_arrayIndex !=26) {
         // stop playing any sounds & ...
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] stop];
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] setCurrentTime:0];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] stop];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] setCurrentTime:0];
     }
     
     _arrayIndex++;
@@ -212,8 +210,8 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     }
     
     if (_arrayIndex !=26) {
-        _label.text = _utils.arrayLetters[_arrayIndex];
-        _label2.text = _utils.arrayNames[_arrayIndex];
+        _label.text = [Utils sharedInstance].arrayLetters[_arrayIndex];
+        _label2.text = [Utils sharedInstance].arrayNames[_arrayIndex];
 
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         CGFloat height = [UIScreen mainScreen].bounds.size.height;
@@ -224,15 +222,15 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
         textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
         _label2.frame = CGRectMake(width - 40 - textSize.width, height - 20 - textSize.height, textSize.width + 20, textSize.height);
         
-        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arrayImages[_arrayIndex]]];
+        NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", [Utils sharedInstance].arrayImages[_arrayIndex]]];
         NSLog(@"Left swipe received, path %@", fullpath);
         
         UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
         _image.image = loadImage;
         
-        [self.view setBackgroundColor:[Utils colorWithHexString:_utils.arrayColors[_arrayIndex]]];
+        [self.view setBackgroundColor:[Utils colorWithHexString:[Utils sharedInstance].arrayColors[_arrayIndex]]];
     
-        [(AVAudioPlayer *)_utils.audioPlayers[_arrayIndex] play];
+        [(AVAudioPlayer *)[Utils sharedInstance].audioPlayers[_arrayIndex] play];
     } else {
         [self setCredits];
     }
@@ -314,21 +312,21 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label4.hidden = false;
     _image.hidden = true;
     
-    [self.view setBackgroundColor:[Utils colorWithHexString:_utils.arrayColors[_arrayIndex]]];
+    [self.view setBackgroundColor:[Utils colorWithHexString:[Utils sharedInstance].arrayColors[_arrayIndex]]];
 }
 
 -(void)createSubviews
 {
-    NSLog(@"%s", __FUNCTION__);    
-    arrayCount = (int)[_utils.arrayNames count];
+    NSLog(@"%s", __FUNCTION__);
+    arrayCount = (int)[[Utils sharedInstance].arrayNames count];
     
     _image =[[UIImageView alloc] initWithFrame:CGRectMake(0,0, _width, _height)];
-    _image.image=[UIImage imageNamed:_utils.arrayImages[_arrayIndex]];
+    _image.image=[UIImage imageNamed:[Utils sharedInstance].arrayImages[_arrayIndex]];
     _image.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:_image];
     
     _label = [UILabel new];
-    _label.text = _utils.arrayLetters[_arrayIndex];
+    _label.text = [Utils sharedInstance].arrayLetters[_arrayIndex];
     CGSize textSize = [_label.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_big_text_reducer]}];
     _label.frame = CGRectMake(20, 20, textSize.width+20, textSize.height);
     
@@ -340,7 +338,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     [self.view addSubview:_label];
     
     _label2 = [UILabel new];
-    _label2.text = _utils.arrayNames[_arrayIndex];
+    _label2.text = [Utils sharedInstance].arrayNames[_arrayIndex];
     textSize = [_label2.text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Arial" size:_height/_label_medium_text_reducer]}];
     _label2.frame = CGRectMake(_width - 40 - textSize.width, _height - 20 - textSize.height, textSize.width + 20, textSize.height);
     _label2.backgroundColor = [Utils grey];
@@ -350,7 +348,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label2.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_label2];
     
-    [self.view setBackgroundColor:[Utils colorWithHexString:_utils.arrayColors[_arrayIndex]]];
+    [self.view setBackgroundColor:[Utils colorWithHexString:[Utils sharedInstance].arrayColors[_arrayIndex]]];
     
     
 /* -------------CREDITS-----------------*/
@@ -386,7 +384,7 @@ int lx1_4, ly1_4, lx2_4, ly2_4;
     _label4.numberOfLines = 0;
     NSMutableString *tempString = [NSMutableString string];
     for(int i=0;i<27;i++){
-        [tempString appendString:_utils.arrayCredits[i]];
+        [tempString appendString:[Utils sharedInstance].arrayCredits[i]];
         [tempString appendString:@"\n"];
     }
     _label4.text = tempString;

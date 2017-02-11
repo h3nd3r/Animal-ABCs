@@ -11,10 +11,13 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "Utils.h"
 
 @interface ViewController : UIViewController
 
 @property (nonatomic) int arrayIndex;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) CGFloat height;
 
 @end
 

@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "Utils.h"
 
 @interface SpecialCollectionViewCell : UICollectionViewCell
 
@@ -18,6 +19,10 @@
 @property (nonatomic, retain) NSMutableArray *results;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) CGFloat height;
+@property (nonatomic) NSMutableArray *arrayImages;
+
 @end
 
 

@@ -13,10 +13,13 @@
 
 @interface Utils : NSObject
 
++ (Utils *)sharedInstance;
 + (CGSize)cellSize;
 + (uint)findFontSize:(CGRect)box withText:(NSString *)text;
 + (UIColor *)grey;
 + (UIColor *)colorWithHexString:(NSString *)hex;
+
+//@property NSArray *arrayTest;
 
 //- (NSMutableArray *)audioPlayers;
 
@@ -31,6 +34,8 @@
 @property (getter=arrayAudio) NSMutableArray *arrayAudio;
 @property (getter=arrayColors) NSMutableArray *arrayColors;
 @property (getter=audioPlayers) NSMutableArray *audioPlayers;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) CGFloat height;
 
 @end
 #endif /* Utils_h */

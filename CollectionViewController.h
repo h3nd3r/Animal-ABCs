@@ -13,12 +13,14 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ViewController.h"
 #import "SpecialCollectionViewCell.h"
+#import "Utils.h"
 
 @interface CollectionViewController : UICollectionViewController
 
 @property (nonatomic, retain) UICollectionView *collectionView;
 @property (nonatomic, retain) NSMutableArray *results;
-
+@property (nonatomic) CGFloat width;
+@property (nonatomic) CGFloat height;
 @end
 
 

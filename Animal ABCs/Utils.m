@@ -11,18 +11,36 @@
 #import "Utils.h"
 
 @implementation Utils : NSObject
-/*
-NSMutableArray *arrayNames;
-NSMutableArray *arrayLetters;
-NSMutableArray *arrayLetter;
-NSMutableArray *arrayImages;
-NSMutableArray *arrayCredits;
-NSMutableArray *arrayAudio;
-NSMutableArray *arrayColors;
-NSMutableArray *audioPlayers;
-*/
-- init {
 
+//@synthesize arrayTest;
+
++ (Utils *)sharedInstance
+{
+    /*
+    static Utils *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[Utils alloc] init];
+        // Do any other initialisation stuff here
+    });
+    return sharedInstance;
+     */
+    static Utils *sharedMyManager = nil;
+    @synchronized(self) {
+        if (sharedMyManager == nil)
+            sharedMyManager = [[self alloc] init];
+    }
+    return sharedMyManager;
+}
+
+
+- init {
+    
+//    arrayTest = @[];
+    
+    _width = [UIScreen mainScreen].bounds.size.width;
+    _height = [UIScreen mainScreen].bounds.size.height;
+    
     _arrayAudio = [[NSMutableArray alloc] init];
 
     [_arrayAudio addObject: @"%@/Aa.m4a"];
@@ -387,27 +405,7 @@ NSMutableArray *audioPlayers;
     }
     return self;
 }
-/*
-- (NSMutableArray *)audioPlayers {
-    if (!audioPlayers) {
-        audioPlayers = [[NSMutableArray alloc] init];
-        
-        for(int i=0; i<26; i++)
-        {
-            // Construct URL to sound file
-            NSString *path = [NSString stringWithFormat:arrayAudio[i], [[NSBundle mainBundle] resourcePath]];
-            NSURL *soundUrl = [NSURL fileURLWithPath:path];
-            
-            // Create audio player object and initialize with URL to sound
-            AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
-            
-            [audioPlayers addObject: audioPlayer];
-        }
-    }
-    
-    return audioPlayers;
-}
-*/
+
 + (UIColor*)colorWithHexString:(NSString*)hex
 {
     NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];

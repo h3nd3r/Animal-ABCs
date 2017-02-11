@@ -11,10 +11,6 @@
 #include "Utils.h"
 
 @implementation SpecialCollectionViewCell
-Utils *_utils;
-CGFloat _width;
-CGFloat _height;
-NSMutableArray *arrayImages;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -31,7 +27,7 @@ NSMutableArray *arrayImages;
         if(!_imageView)
         {
             _imageView =[[UIImageView alloc] initWithFrame:CGRectMake(0,0, cellSize.width, cellSize.height)];
-            _imageView.image=[UIImage imageNamed:_utils.arraySmallImages[2]];
+            _imageView.image=[UIImage imageNamed:[Utils sharedInstance].arraySmallImages[2]];
             _imageView.contentMode = UIViewContentModeScaleAspectFit;
             [self.contentView addSubview:_imageView];
         }

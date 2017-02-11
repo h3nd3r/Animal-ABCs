@@ -16,11 +16,6 @@
 
 @synthesize collectionView = _collectionView;
 @synthesize results = _results;
-Utils *_utils;
-CGFloat _width;
-CGFloat _height;
-//CGSize portraitCellSize;
-//CGSize landscapeCellSize;
 
 - (id)init
 {
@@ -107,14 +102,14 @@ CGFloat _height;
     CGSize cellSize = [Utils cellSize];
     
     
-    cell.backgroundColor = [Utils colorWithHexString:_utils.arrayColors[indexPath.item]];
+    cell.backgroundColor = [Utils colorWithHexString:[Utils sharedInstance].arrayColors[indexPath.item]];
     cell.contentMode = UIViewContentModeScaleAspectFit;
     cell.clipsToBounds = true;
     
     NSLog(@"%@", indexPath);
     NSLog(@"%ld", (long)indexPath.item);
     
-    NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", _utils.arraySmallImages[indexPath.item] ]];
+    NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", [Utils sharedInstance].arraySmallImages[indexPath.item] ]];
     UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
 
     NSLog(@"%@", fullpath);
@@ -122,7 +117,7 @@ CGFloat _height;
     cell.imageView.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
     cell.imageView.image = loadImage;
     
-    cell.label.text = _utils.arrayLetter[indexPath.item];
+    cell.label.text = [Utils sharedInstance].arrayLetter[indexPath.item];
     cell.label.frame = CGRectMake(0,0, cellSize.width, cellSize.height);
     cell.label.textAlignment = NSTextAlignmentCenter;
     return cell;
