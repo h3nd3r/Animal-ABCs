@@ -23,7 +23,6 @@ UILabel *_label3;
 UILabel *_label4;
 UIImageView *_image;
 
-
 CGSize _label1_textSize;
 
 int arrayCount;
